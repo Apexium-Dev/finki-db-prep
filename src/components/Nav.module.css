@@ -1,0 +1,58 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #eee;
+}
+
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #111;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.login {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #444;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.login:hover {
+  background: #f5f5f5;
+}
+
+.signup {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background: #3b82f6;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.signup:hover {
+  background: #2563eb;
+}
