@@ -1,0 +1,157 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #f8fafc;
+}
+
+/* Toolbar */
+.toolbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.toolGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.toolLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.toolBtn {
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s;
+  white-space: nowrap;
+}
+
+.entityBtn { border-color: #93c5fd; color: #1d4ed8; background: #eff6ff; }
+.entityBtn:hover { background: #dbeafe; }
+.attrBtn   { border-color: #86efac; color: #15803d; background: #f0fdf4; }
+.attrBtn:hover { background: #dcfce7; }
+.relBtn    { border-color: #c4b5fd; color: #7e22ce; background: #faf5ff; }
+.relBtn:hover { background: #ede9fe; }
+
+.cardBtn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.cardBtn:hover { background: #f1f5f9; }
+
+.cardActive {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #fff;
+}
+
+.labelInput {
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.85rem;
+  width: 120px;
+  outline: none;
+}
+
+.labelInput:focus { border-color: #3b82f6; }
+
+.flagLabel {
+  font-size: 0.8rem;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.deleteBtn {
+  border: 1px solid #fca5a5;
+  background: #fff1f2;
+  color: #dc2626;
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.deleteBtn:hover { background: #fee2e2; }
+
+.exportBtn {
+  margin-left: auto;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.exportBtn:hover:not(:disabled) { background: #2563eb; }
+.exportBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Canvas */
+.canvas {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Legend */
+.legend {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  padding: 0.5rem 1rem;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 500;
+}
+
+.entityDot { display: inline-block; width: 10px; height: 10px; border: 2px solid #1d4ed8; background: #fff; }
+.attrDot   { display: inline-block; width: 10px; height: 10px; border: 2px solid #16a34a; border-radius: 50%; background: #fff; }
+.relDot    { display: inline-block; width: 10px; height: 10px; border: 2px solid #9333ea; background: #fff; transform: rotate(45deg); }
+
+.legendNote { color: #94a3b8; margin-left: auto; font-style: italic; }

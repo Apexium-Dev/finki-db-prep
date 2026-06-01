@@ -3,6 +3,10 @@ import { createClient } from "@/lib/supabase/server";
 import TaskSolver from "@/components/TaskSolver";
 import type { Task } from "@/types/database";
 
+// Dynamic import to avoid loading React Flow on non-ER tasks
+import dynamic from "next/dynamic";
+const ErSolver = dynamic(() => import("@/components/er/ErSolver"), { ssr: false });
+
 interface PageProps {
   params: { id: string };
 }
@@ -18,5 +22,11 @@ export default async function TaskPage({ params }: PageProps) {
 
   if (error || !data) notFound();
 
-  return <TaskSolver task={data as Task} />;
+  const task = data as Task;
+
+  if (task.category === "er") {
+    return <ErSolver task={task} />;
+  }
+
+  return <TaskSolver task={task} />;
 }

@@ -1,0 +1,89 @@
+.handle {
+  width: 8px !important;
+  height: 8px !important;
+  background: #94a3b8 !important;
+  border: 2px solid #fff !important;
+}
+
+/* ── Entity ── */
+.entity {
+  background: #fff;
+  border: 2.5px solid #1d4ed8;
+  border-radius: 4px;
+  padding: 0.5rem 1.25rem;
+  min-width: 100px;
+  text-align: center;
+  cursor: grab;
+}
+
+.entity.weak {
+  box-shadow: 0 0 0 4px #fff, 0 0 0 6.5px #1d4ed8;
+}
+
+.entity.selected { border-color: #f59e0b; box-shadow: 0 0 0 2px #fde68a; }
+
+.entityLabel {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1e3a8a;
+}
+
+/* ── Attribute ── */
+.attribute {
+  background: #fff;
+  border: 2px solid #16a34a;
+  border-radius: 50%;
+  width: 90px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: grab;
+  padding: 0 0.4rem;
+}
+
+.attribute.keyAttr { border-color: #15803d; }
+.attribute.multiAttr { box-shadow: 0 0 0 3px #fff, 0 0 0 5px #16a34a; }
+.attribute.derivedAttr { border-style: dashed; }
+.attribute.selected { border-color: #f59e0b; box-shadow: 0 0 0 2px #fde68a; }
+
+.attrLabel {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #15803d;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+.keyLabel { text-decoration: underline; font-weight: 700; }
+
+/* ── Relationship ── */
+.relationship {
+  background: #fff;
+  border: 2.5px solid #9333ea;
+  transform: rotate(45deg);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+}
+
+.relationship.identifying {
+  box-shadow: 0 0 0 4px #fff, 0 0 0 6.5px #9333ea;
+}
+
+.relationship.selected { border-color: #f59e0b; }
+
+.relLabel {
+  transform: rotate(-45deg);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #7e22ce;
+  text-align: center;
+  word-break: break-word;
+  max-width: 64px;
+  line-height: 1.2;
+}
