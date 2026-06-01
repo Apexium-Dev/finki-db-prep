@@ -24,6 +24,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   relations: "Релации",
 };
 
+type TabId = "prompt" | "schema" | "hints" | "result";
+
 type AnyResult =
   | { type: "dml"; data: GradingResult }
   | { type: "ddl"; data: DdlGradingResult }
@@ -32,15 +34,13 @@ type AnyResult =
 function calcScore(result: AnyResult, maxPoints: number, penaltyPercent: number): number {
   let ratio = 0;
   if (result.type === "dml") ratio = result.data.passed ? 1 : 0;
-  else if (result.type === "ddl") ratio = result.data.score / result.data.maxScore;
   else ratio = result.data.score / result.data.maxScore;
-
   return Math.round(maxPoints * ratio * (1 - penaltyPercent / 100));
 }
 
 export default function TaskSolver({ task }: { task: Task }) {
   const [sql, setSql] = useState("");
-  const [activeTab, setActiveTab] = useState<"prompt" | "schema">("prompt");
+  const [activeTab, setActiveTab] = useState<TabId>("prompt");
   const [grading, setGrading] = useState(false);
   const [result, setResult] = useState<AnyResult | null>(null);
   const [earnedScore, setEarnedScore] = useState<number | null>(null);
@@ -52,10 +52,14 @@ export default function TaskSolver({ task }: { task: Task }) {
   const totalPenalty = hints.slice(0, hintsRevealed).reduce((s, h) => s + h.score_penalty, 0);
 
   const startTimeRef = useRef<number>(Date.now());
+  useEffect(() => { startTimeRef.current = Date.now(); }, []);
 
-  useEffect(() => {
-    startTimeRef.current = Date.now();
-  }, []);
+  const tabs: { id: TabId; label: string; show: boolean }[] = [
+    { id: "prompt", label: "Задача", show: true },
+    { id: "schema", label: "Шема", show: !!task.setup_sql },
+    { id: "hints", label: `Совети${hintsRevealed > 0 ? ` (${hintsRevealed})` : ""}`, show: hints.length > 0 },
+    { id: "result", label: "Резултат", show: submitted },
+  ];
 
   async function handleCheck() {
     if (!sql.trim()) return;
@@ -85,15 +89,13 @@ export default function TaskSolver({ task }: { task: Task }) {
       }
 
       const score = calcScore(res, task.points, totalPenalty);
-      const passed =
-        res.type === "dml" ? res.data.passed :
-        res.type === "ddl" ? res.data.passed : res.data.passed;
+      const passed = res.data.passed;
 
       setResult(res);
       setEarnedScore(score);
       setSubmitted(true);
+      setActiveTab("result");
 
-      // Persist submission
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
@@ -111,16 +113,11 @@ export default function TaskSolver({ task }: { task: Task }) {
     } catch (e) {
       setResult({
         type: "dml",
-        data: {
-          passed: false,
-          studentRows: [],
-          referenceRows: [],
-          error: e instanceof Error ? e.message : "Непозната грешка",
-          columns: [],
-        },
+        data: { passed: false, studentRows: [], referenceRows: [], error: e instanceof Error ? e.message : "Непозната грешка", columns: [] },
       });
       setEarnedScore(0);
       setSubmitted(true);
+      setActiveTab("result");
     } finally {
       setGrading(false);
     }
@@ -128,66 +125,75 @@ export default function TaskSolver({ task }: { task: Task }) {
 
   return (
     <div className={styles.layout}>
+      {/* Left panel */}
       <aside className={styles.panel}>
-        <div className={styles.meta}>
-          <span className={styles.category}>{CATEGORY_LABELS[task.category]}</span>
-          <span className={styles.difficulty}>
-            {"★".repeat(task.difficulty)}{"☆".repeat(5 - task.difficulty)}
-          </span>
-          <span className={styles.points}>{task.points} поени</span>
+        {/* Fixed header — always visible */}
+        <div className={styles.panelHeader}>
+          <div className={styles.meta}>
+            <span className={styles.category}>{CATEGORY_LABELS[task.category]}</span>
+            <span className={styles.difficulty}>
+              {"★".repeat(task.difficulty)}{"☆".repeat(5 - task.difficulty)}
+            </span>
+            <span className={styles.points}>{task.points} поени</span>
+          </div>
+          <h1 className={styles.title}>{task.title}</h1>
+
+          <div className={styles.tabs}>
+            {tabs.filter((t) => t.show).map((t) => (
+              <button
+                key={t.id}
+                className={`${styles.tab} ${activeTab === t.id ? styles.activeTab : ""} ${t.id === "result" ? styles.resultTab : ""}`}
+                onClick={() => setActiveTab(t.id)}
+              >
+                {t.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <h1 className={styles.title}>{task.title}</h1>
-
-        <div className={styles.tabs}>
-          <button
-            className={`${styles.tab} ${activeTab === "prompt" ? styles.activeTab : ""}`}
-            onClick={() => setActiveTab("prompt")}
-          >
-            Задача
-          </button>
-          <button
-            className={`${styles.tab} ${activeTab === "schema" ? styles.activeTab : ""}`}
-            onClick={() => setActiveTab("schema")}
-          >
-            Шема
-          </button>
-        </div>
-
+        {/* Scrollable tab content */}
         <div className={styles.tabContent}>
           {activeTab === "prompt" && (
             <p className={styles.prompt}>{task.prompt}</p>
           )}
+
           {activeTab === "schema" && (
             <pre className={styles.schema}>
               <code>{task.setup_sql || "Нема дадена шема за оваа задача."}</code>
             </pre>
           )}
+
+          {activeTab === "hints" && (
+            <HintsPanel
+              hints={hints}
+              revealed={hintsRevealed}
+              totalPenalty={totalPenalty}
+              onReveal={() => setHintsRevealed((n) => n + 1)}
+              submitted={submitted}
+              inline
+            />
+          )}
+
+          {activeTab === "result" && result && earnedScore !== null && (
+            <div className={styles.resultTab}>
+              {result.type === "dml" && (
+                <ResultPanel result={result.data} earnedScore={earnedScore} maxScore={task.points} />
+              )}
+              {result.type === "ddl" && (
+                <DdlResultPanel result={result.data} earnedScore={earnedScore} maxScore={task.points} />
+              )}
+              {result.type === "trigger" && (
+                <TriggerResultPanel result={result.data} earnedScore={earnedScore} maxScore={task.points} />
+              )}
+              {walkthrough.length > 0 && (
+                <WalkthroughPanel steps={walkthrough} />
+              )}
+            </div>
+          )}
         </div>
-
-        <HintsPanel
-          hints={hints}
-          revealed={hintsRevealed}
-          totalPenalty={totalPenalty}
-          onReveal={() => setHintsRevealed((n) => n + 1)}
-          submitted={submitted}
-        />
-
-        {result?.type === "dml" && earnedScore !== null && (
-          <ResultPanel result={result.data} earnedScore={earnedScore} maxScore={task.points} />
-        )}
-        {result?.type === "ddl" && earnedScore !== null && (
-          <DdlResultPanel result={result.data} earnedScore={earnedScore} maxScore={task.points} />
-        )}
-        {result?.type === "trigger" && earnedScore !== null && (
-          <TriggerResultPanel result={result.data} earnedScore={earnedScore} maxScore={task.points} />
-        )}
-
-        {submitted && walkthrough.length > 0 && (
-          <WalkthroughPanel steps={walkthrough} />
-        )}
       </aside>
 
+      {/* Right panel — editor */}
       <div className={styles.editorPanel}>
         <div className={styles.editorHeader}>
           <span className={styles.editorLabel}>SQL Едитор</span>

@@ -2,7 +2,7 @@
   border-radius: 8px;
   border: 1px solid;
   overflow: hidden;
-  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .pass    { border-color: #86efac; background: #f0fdf4; }
