@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FINKI DB Prep
 
-## Getting Started
+Practice platform for the **Databases 1 practical exam** at FINKI (Faculty of Computer Science and Engineering, Skopje, North Macedonia).
 
-First, run the development server:
+Students log in, pick SQL tasks sorted by difficulty, solve them in an in-browser editor, and get instant feedback. The platform covers every topic on the practical exam: DML queries, DDL schema design, triggers, ER diagram drawing, and writing the relational schema.
+
+## How it works
+
+- **Tasks** are authored by instructors and stored in Supabase.
+- **Grading** runs entirely in the browser using [PGlite](https://github.com/electric-sql/pglite) — Postgres compiled to WebAssembly. No student SQL ever leaves the browser. Correctness is checked by *executing* the SQL and comparing results, never by text comparison.
+- **Hints** are tiered (conceptual → structural → skeleton); each one used reduces the maximum score for that attempt, so there's an incentive to think before looking.
+- **Walkthroughs** teach the logical procedure step by step, revealed after the attempt.
+
+## Tech stack
+
+| Layer | Choice |
+|-------|--------|
+| Framework | Next.js 14, App Router, TypeScript |
+| Styling | CSS Modules |
+| Database / Auth | Supabase (Postgres + Auth + RLS) |
+| Grading sandbox | PGlite (WASM Postgres, runs in browser) |
+| SQL editor | CodeMirror 6 |
+| Hosting | Vercel |
+
+## Running locally
+
+**Prerequisites:** Node.js 18+, a Supabase project.
 
 ```bash
+git clone https://github.com/YOUR_USERNAME/finki-db-prep.git
+cd finki-db-prep
+npm install
+cp .env.example .env.local
+# Fill in NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploying to Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Push the repo to GitHub.
+2. Go to https://vercel.com/new and import the repo.
+3. Add the two Supabase env vars in Vercel's project settings.
+4. Deploy. Vercel auto-detects Next.js and handles everything else.
 
-## Learn More
+## Project structure
 
-To learn more about Next.js, take a look at the following resources:
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full data model, grading engine design, and directory layout.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+See [`docs/ROADMAP.md`](docs/ROADMAP.md) for the build order and phase descriptions.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Development workflow
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [`CLAUDE.md`](CLAUDE.md) for the git workflow, coding conventions, and how to resume a session.

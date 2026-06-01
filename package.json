@@ -1,5 +1,5 @@
 {
-  "name": "finki-db-prep-tmp",
+  "name": "finki-db-prep",
   "version": "0.1.0",
   "private": true,
   "scripts": {
