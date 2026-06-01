@@ -4,7 +4,9 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import type { Task } from "@/types/database";
 import type { GradingResult } from "@/lib/grading/dml";
+import type { DdlGradingResult } from "@/lib/grading/ddl";
 import ResultPanel from "@/components/ResultPanel";
+import DdlResultPanel from "@/components/DdlResultPanel";
 import styles from "./TaskSolver.module.css";
 
 const SqlEditor = dynamic(() => import("@/components/SqlEditor"), { ssr: false });
@@ -17,15 +19,13 @@ const CATEGORY_LABELS: Record<string, string> = {
   relations: "Релации",
 };
 
-interface TaskSolverProps {
-  task: Task;
-}
+type AnyResult = { type: "dml"; data: GradingResult } | { type: "ddl"; data: DdlGradingResult };
 
-export default function TaskSolver({ task }: TaskSolverProps) {
+export default function TaskSolver({ task }: { task: Task }) {
   const [sql, setSql] = useState("");
   const [activeTab, setActiveTab] = useState<"prompt" | "schema">("prompt");
   const [grading, setGrading] = useState(false);
-  const [result, setResult] = useState<GradingResult | null>(null);
+  const [result, setResult] = useState<AnyResult | null>(null);
 
   async function handleCheck() {
     if (!sql.trim()) return;
@@ -33,21 +33,33 @@ export default function TaskSolver({ task }: TaskSolverProps) {
     setResult(null);
 
     try {
-      const { gradeDml } = await import("@/lib/grading/dml");
-      const res = await gradeDml(
-        task.setup_sql,
-        task.seed_sql,
-        sql,
-        task.reference_solution
-      );
-      setResult(res);
+      if (task.category === "ddl") {
+        const { gradeDdl } = await import("@/lib/grading/ddl");
+        const data = await gradeDdl(
+          sql,
+          (task.test_cases ?? []) as Record<string, string>[]
+        );
+        setResult({ type: "ddl", data });
+      } else {
+        const { gradeDml } = await import("@/lib/grading/dml");
+        const data = await gradeDml(
+          task.setup_sql,
+          task.seed_sql,
+          sql,
+          task.reference_solution
+        );
+        setResult({ type: "dml", data });
+      }
     } catch (e) {
       setResult({
-        passed: false,
-        studentRows: [],
-        referenceRows: [],
-        error: e instanceof Error ? e.message : "Непозната грешка",
-        columns: [],
+        type: "dml",
+        data: {
+          passed: false,
+          studentRows: [],
+          referenceRows: [],
+          error: e instanceof Error ? e.message : "Непозната грешка",
+          columns: [],
+        },
       });
     } finally {
       setGrading(false);
@@ -56,7 +68,6 @@ export default function TaskSolver({ task }: TaskSolverProps) {
 
   return (
     <div className={styles.layout}>
-      {/* Left panel */}
       <aside className={styles.panel}>
         <div className={styles.meta}>
           <span className={styles.category}>{CATEGORY_LABELS[task.category]}</span>
@@ -94,10 +105,14 @@ export default function TaskSolver({ task }: TaskSolverProps) {
           )}
         </div>
 
-        {result && <ResultPanel result={result} points={task.points} />}
+        {result?.type === "dml" && (
+          <ResultPanel result={result.data} points={task.points} />
+        )}
+        {result?.type === "ddl" && (
+          <DdlResultPanel result={result.data} points={task.points} />
+        )}
       </aside>
 
-      {/* Right panel */}
       <div className={styles.editorPanel}>
         <div className={styles.editorHeader}>
           <span className={styles.editorLabel}>SQL Едитор</span>

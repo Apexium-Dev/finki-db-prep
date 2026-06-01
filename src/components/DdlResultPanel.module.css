@@ -1,0 +1,58 @@
+.panel {
+  border-radius: 8px;
+  border: 1px solid;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.pass    { border-color: #86efac; background: #f0fdf4; }
+.partial { border-color: #fcd34d; background: #fffbeb; }
+
+.verdict {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.icon { font-size: 1.4rem; font-weight: 700; line-height: 1; }
+.pass .icon    { color: #16a34a; }
+.partial .icon { color: #d97706; }
+
+.verdictText { font-weight: 700; font-size: 0.95rem; color: #0f172a; }
+.score       { font-size: 0.8rem; color: #64748b; }
+
+.error {
+  background: #1e293b;
+  color: #f87171;
+  font-size: 0.8rem;
+  padding: 0.875rem 1.1rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+}
+
+.aspectList {
+  list-style: none;
+  padding: 0.5rem 0;
+}
+
+.aspect {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.45rem 1.1rem;
+  font-size: 0.875rem;
+}
+
+.aspect + .aspect {
+  border-top: 1px solid #f1f5f9;
+}
+
+.aspectIcon { font-size: 0.85rem; margin-top: 1px; flex-shrink: 0; }
+.aspectPass .aspectIcon { color: #16a34a; }
+.aspectFail .aspectIcon { color: #dc2626; }
+
+.aspectLabel { color: #334155; display: block; }
+.aspectDetail { color: #94a3b8; font-size: 0.78rem; display: block; margin-top: 1px; }
