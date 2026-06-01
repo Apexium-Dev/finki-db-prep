@@ -1,0 +1,7 @@
+.editor {
+  height: 100%;
+  min-height: 260px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #334155;
+}
