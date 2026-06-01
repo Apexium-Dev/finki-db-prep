@@ -12,6 +12,7 @@ import TriggerResultPanel from "@/components/TriggerResultPanel";
 import HintsPanel from "@/components/HintsPanel";
 import WalkthroughPanel from "@/components/WalkthroughPanel";
 import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
 import styles from "./TaskSolver.module.css";
 
 const SqlEditor = dynamic(() => import("@/components/SqlEditor"), { ssr: false });
@@ -129,6 +130,9 @@ export default function TaskSolver({ task }: { task: Task }) {
       <aside className={styles.panel}>
         {/* Fixed header — always visible */}
         <div className={styles.panelHeader}>
+          <Link href="/dashboard" className={styles.backLink}>
+            ← Задачи
+          </Link>
           <div className={styles.meta}>
             <span className={styles.category}>{CATEGORY_LABELS[task.category]}</span>
             <span className={styles.difficulty}>
