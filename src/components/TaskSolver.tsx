@@ -5,8 +5,10 @@ import dynamic from "next/dynamic";
 import type { Task } from "@/types/database";
 import type { GradingResult } from "@/lib/grading/dml";
 import type { DdlGradingResult } from "@/lib/grading/ddl";
+import type { TriggerGradingResult, TriggerScenario } from "@/lib/grading/trigger";
 import ResultPanel from "@/components/ResultPanel";
 import DdlResultPanel from "@/components/DdlResultPanel";
+import TriggerResultPanel from "@/components/TriggerResultPanel";
 import styles from "./TaskSolver.module.css";
 
 const SqlEditor = dynamic(() => import("@/components/SqlEditor"), { ssr: false });
@@ -19,7 +21,10 @@ const CATEGORY_LABELS: Record<string, string> = {
   relations: "Релации",
 };
 
-type AnyResult = { type: "dml"; data: GradingResult } | { type: "ddl"; data: DdlGradingResult };
+type AnyResult =
+  | { type: "dml"; data: GradingResult }
+  | { type: "ddl"; data: DdlGradingResult }
+  | { type: "trigger"; data: TriggerGradingResult };
 
 export default function TaskSolver({ task }: { task: Task }) {
   const [sql, setSql] = useState("");
@@ -40,6 +45,14 @@ export default function TaskSolver({ task }: { task: Task }) {
           (task.test_cases ?? []) as Record<string, string>[]
         );
         setResult({ type: "ddl", data });
+      } else if (task.category === "trigger") {
+        const { gradeTrigger } = await import("@/lib/grading/trigger");
+        const data = await gradeTrigger(
+          task.setup_sql,
+          sql,
+          (task.test_cases ?? []) as unknown as TriggerScenario[]
+        );
+        setResult({ type: "trigger", data });
       } else {
         const { gradeDml } = await import("@/lib/grading/dml");
         const data = await gradeDml(
@@ -110,6 +123,9 @@ export default function TaskSolver({ task }: { task: Task }) {
         )}
         {result?.type === "ddl" && (
           <DdlResultPanel result={result.data} points={task.points} />
+        )}
+        {result?.type === "trigger" && (
+          <TriggerResultPanel result={result.data} points={task.points} />
         )}
       </aside>
 

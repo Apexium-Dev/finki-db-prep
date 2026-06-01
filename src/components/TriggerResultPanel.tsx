@@ -1,0 +1,47 @@
+import type { TriggerGradingResult } from "@/lib/grading/trigger";
+import styles from "./TriggerResultPanel.module.css";
+
+interface Props {
+  result: TriggerGradingResult;
+  points: number;
+}
+
+export default function TriggerResultPanel({ result, points }: Props) {
+  const { passed, score, maxScore, scenarios, error } = result;
+  const earnedPoints = Math.round((score / maxScore) * points);
+
+  return (
+    <div className={`${styles.panel} ${passed ? styles.pass : score > 0 ? styles.partial : styles.fail}`}>
+      <div className={styles.verdict}>
+        <span className={styles.icon}>{passed ? "✓" : score > 0 ? "◑" : "✗"}</span>
+        <div>
+          <p className={styles.verdictText}>
+            {passed ? "Точно!" : score > 0 ? "Делумно точно" : "Неточно"}
+          </p>
+          <p className={styles.score}>
+            {earnedPoints} / {points} поени &nbsp;·&nbsp; {score}/{maxScore} сценарија
+          </p>
+        </div>
+      </div>
+
+      {error && <pre className={styles.error}>{error}</pre>}
+
+      {scenarios.length > 0 && (
+        <ul className={styles.list}>
+          {scenarios.map((s, i) => (
+            <li key={i} className={`${styles.item} ${s.passed ? styles.itemPass : styles.itemFail}`}>
+              <span className={styles.itemIcon}>{s.passed ? "✓" : "✗"}</span>
+              <div>
+                <span className={styles.itemDesc}>{s.description}</span>
+                {s.detail && <span className={styles.itemDetail}>{s.detail}</span>}
+                {s.raised && !s.passed && (
+                  <span className={styles.itemDetail}>Тригерот фрли грешка кога не треба</span>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
