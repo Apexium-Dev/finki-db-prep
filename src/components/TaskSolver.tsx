@@ -3,6 +3,8 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import type { Task } from "@/types/database";
+import type { GradingResult } from "@/lib/grading/dml";
+import ResultPanel from "@/components/ResultPanel";
 import styles from "./TaskSolver.module.css";
 
 const SqlEditor = dynamic(() => import("@/components/SqlEditor"), { ssr: false });
@@ -22,15 +24,39 @@ interface TaskSolverProps {
 export default function TaskSolver({ task }: TaskSolverProps) {
   const [sql, setSql] = useState("");
   const [activeTab, setActiveTab] = useState<"prompt" | "schema">("prompt");
+  const [grading, setGrading] = useState(false);
+  const [result, setResult] = useState<GradingResult | null>(null);
 
-  function handleCheck() {
-    // Grading engine wired in Phase 6
-    alert("Оценувањето ќе биде достапно наускоро!");
+  async function handleCheck() {
+    if (!sql.trim()) return;
+    setGrading(true);
+    setResult(null);
+
+    try {
+      const { gradeDml } = await import("@/lib/grading/dml");
+      const res = await gradeDml(
+        task.setup_sql,
+        task.seed_sql,
+        sql,
+        task.reference_solution
+      );
+      setResult(res);
+    } catch (e) {
+      setResult({
+        passed: false,
+        studentRows: [],
+        referenceRows: [],
+        error: e instanceof Error ? e.message : "Непозната грешка",
+        columns: [],
+      });
+    } finally {
+      setGrading(false);
+    }
   }
 
   return (
     <div className={styles.layout}>
-      {/* Left panel — task description */}
+      {/* Left panel */}
       <aside className={styles.panel}>
         <div className={styles.meta}>
           <span className={styles.category}>{CATEGORY_LABELS[task.category]}</span>
@@ -67,16 +93,17 @@ export default function TaskSolver({ task }: TaskSolverProps) {
             </pre>
           )}
         </div>
+
+        {result && <ResultPanel result={result} points={task.points} />}
       </aside>
 
-      {/* Right panel — editor */}
+      {/* Right panel */}
       <div className={styles.editorPanel}>
         <div className={styles.editorHeader}>
           <span className={styles.editorLabel}>SQL Едитор</span>
           <button
             className={styles.resetBtn}
-            onClick={() => setSql("")}
-            title="Избриши"
+            onClick={() => { setSql(""); setResult(null); }}
           >
             Ресет
           </button>
@@ -90,9 +117,9 @@ export default function TaskSolver({ task }: TaskSolverProps) {
           <button
             className={styles.checkBtn}
             onClick={handleCheck}
-            disabled={!sql.trim()}
+            disabled={!sql.trim() || grading}
           >
-            Провери →
+            {grading ? "Се проверува..." : "Провери →"}
           </button>
         </div>
       </div>
