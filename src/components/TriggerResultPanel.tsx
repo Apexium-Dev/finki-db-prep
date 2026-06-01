@@ -3,12 +3,12 @@ import styles from "./TriggerResultPanel.module.css";
 
 interface Props {
   result: TriggerGradingResult;
-  points: number;
+  earnedScore: number;
+  maxScore: number;
 }
 
-export default function TriggerResultPanel({ result, points }: Props) {
-  const { passed, score, maxScore, scenarios, error } = result;
-  const earnedPoints = Math.round((score / maxScore) * points);
+export default function TriggerResultPanel({ result, earnedScore, maxScore }: Props) {
+  const { passed, score, maxScore: scenarioCount, scenarios, error } = result;
 
   return (
     <div className={`${styles.panel} ${passed ? styles.pass : score > 0 ? styles.partial : styles.fail}`}>
@@ -19,7 +19,7 @@ export default function TriggerResultPanel({ result, points }: Props) {
             {passed ? "Точно!" : score > 0 ? "Делумно точно" : "Неточно"}
           </p>
           <p className={styles.score}>
-            {earnedPoints} / {points} поени &nbsp;·&nbsp; {score}/{maxScore} сценарија
+            {earnedScore} / {maxScore} поени &nbsp;·&nbsp; {score}/{scenarioCount} сценарија
           </p>
         </div>
       </div>

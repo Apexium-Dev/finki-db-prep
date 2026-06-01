@@ -3,10 +3,11 @@ import styles from "./ResultPanel.module.css";
 
 interface ResultPanelProps {
   result: GradingResult;
-  points: number;
+  earnedScore: number;
+  maxScore: number;
 }
 
-export default function ResultPanel({ result, points }: ResultPanelProps) {
+export default function ResultPanel({ result, earnedScore, maxScore }: ResultPanelProps) {
   const { passed, studentRows, referenceRows, error, columns } = result;
 
   return (
@@ -18,7 +19,7 @@ export default function ResultPanel({ result, points }: ResultPanelProps) {
             {passed ? "Точно!" : error ? "Грешка во SQL" : "Неточно"}
           </p>
           <p className={styles.score}>
-            {passed ? points : 0} / {points} поени
+            {earnedScore} / {maxScore} поени
           </p>
         </div>
       </div>

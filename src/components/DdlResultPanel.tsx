@@ -3,12 +3,12 @@ import styles from "./DdlResultPanel.module.css";
 
 interface Props {
   result: DdlGradingResult;
-  points: number;
+  earnedScore: number;
+  maxScore: number;
 }
 
-export default function DdlResultPanel({ result, points }: Props) {
-  const { passed, score, maxScore, aspects, error } = result;
-  const earnedPoints = Math.round((score / maxScore) * points);
+export default function DdlResultPanel({ result, earnedScore, maxScore }: Props) {
+  const { passed, score, maxScore: aspectCount, aspects, error } = result;
 
   return (
     <div className={`${styles.panel} ${passed ? styles.pass : styles.partial}`}>
@@ -19,7 +19,7 @@ export default function DdlResultPanel({ result, points }: Props) {
             {passed ? "Точно!" : score > 0 ? "Делумно точно" : "Неточно"}
           </p>
           <p className={styles.score}>
-            {earnedPoints} / {points} поени &nbsp;·&nbsp; {score}/{maxScore} аспекти
+            {earnedScore} / {maxScore} поени &nbsp;·&nbsp; {score}/{aspectCount} аспекти
           </p>
         </div>
       </div>
