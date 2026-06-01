@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import AppNav from "@/components/AppNav";
 import type { ReactNode } from "react";
 
 export default async function ProtectedLayout({ children }: { children: ReactNode }) {
@@ -8,5 +9,10 @@ export default async function ProtectedLayout({ children }: { children: ReactNod
 
   if (!user) redirect("/login");
 
-  return <>{children}</>;
+  return (
+    <>
+      <AppNav email={user.email ?? ""} />
+      {children}
+    </>
+  );
 }
