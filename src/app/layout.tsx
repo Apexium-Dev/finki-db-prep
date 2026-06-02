@@ -24,14 +24,14 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "SQLab FINKI",
-  description: "Интерактивна платформа за вежбање SQL за студентите на ФИНКИ",
+  description: "The SQL practice platform for FINKI students. Instant grading, tiered hints, and exam-aligned tasks.",
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="mk" className={`${inter.variable} ${jakarta.variable} ${mono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${jakarta.variable} ${mono.variable}`}>
       <body>{children}</body>
     </html>
   );
