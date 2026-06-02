@@ -18,7 +18,7 @@
   align-items: center;
   gap: 0.65rem;
   padding: 0 0.5rem;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1rem;
 }
 
 .logoIcon { color: #41EAD4; flex-shrink: 0; }
@@ -36,6 +36,77 @@
   font-size: 0.68rem;
   color: rgba(255, 255, 255, 0.3);
   line-height: 1;
+}
+
+/* Level widget */
+.levelWidget {
+  padding: 0 0.5rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.levelRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.levelBadge {
+  width: 22px;
+  height: 22px;
+  background: #41EAD4;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.levelNum {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 900;
+  color: #011627;
+  line-height: 1;
+}
+
+.levelInfo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.levelTitle {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+}
+
+.levelPts {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.25);
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.levelBar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.levelFill {
+  height: 100%;
+  background: #41EAD4;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+  min-width: 0;
 }
 
 /* Start button */
