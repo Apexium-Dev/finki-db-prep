@@ -1,102 +1,142 @@
 import Link from "next/link";
+import {
+  Zap,
+  Target,
+  TrendingUp,
+  Lightbulb,
+  Database,
+  Table2,
+  Cpu,
+  GitBranch,
+  Trophy,
+  Diamond,
+} from "lucide-react";
 import styles from "./page.module.css";
 
 const FEATURES = [
   {
-    icon: "dns",
-    title: "WASM Бази",
-    body: "Извршување на комплексни прашалници директно во вашиот прелистувач преку PGlite технологија. Нема потреба од инсталација на локален сервер.",
+    Icon: Zap,
+    title: "Инстант проверка",
+    body: "Вашиот SQL се извршува директно во прелистувачот преку PGlite. Резултатот го добивате за милисекунди — без сервер.",
   },
   {
-    icon: "bolt",
-    title: "Инстант Проверка",
-    body: "Веднаш дознајте дали вашиот прашалник е точен. Автоматизираниот систем ги споредува вашите резултати со референтните решенија.",
+    Icon: Target,
+    title: "Прецизна повратна информација",
+    body: "За секоја грешка добивате конкретно објаснување. Не само непоточно, туку зошто и каде.",
   },
   {
-    icon: "menu_book",
-    title: "Поддршка за Испит",
-    body: "Сценаријата и податочните множества се директно усогласени со курикулумот по предметот Бази на податоци 1 на ФИНКИ.",
+    Icon: TrendingUp,
+    title: "Прогрес кој се мери",
+    body: "Лидерборд, поени и статистика по категорија. Следете го вашиот напредок кон испитот.",
+  },
+  {
+    Icon: Lightbulb,
+    title: "Совети по нивоа",
+    body: "Заглавени? Откријте совети чекор по чекор кои ве водат кон решението без да го откријат.",
   },
 ];
 
 const MODULES = [
-  {
-    icon: "architecture",
-    title: "DDL (Дефинирање)",
-    body: "Креирање маси, дефинирање на примарни и странични клучеви, ограничувања и структурирање на податочниот модел.",
-    large: true,
-    category: "ddl",
-  },
-  {
-    icon: "table_chart",
-    title: "DML (Манипулација)",
-    body: "Пишување комплексни SELECT прашалници, JOIN операции, групирање и филтрирање на податоци.",
-    large: false,
-    category: "dml",
-  },
-  {
-    icon: "bolt",
-    title: "Тригери (Triggers)",
-    body: "Автоматизација на логика преку PL/pgSQL. Тригери, функции и одржување на интегритетот на податоците.",
-    large: false,
-    category: "trigger",
-  },
-  {
-    icon: "account_tree",
-    title: "ER Дијаграми",
-    body: "Трансформирање на бизнис барања во концептуални и логички модели. Мапирање на ентитети и врски.",
-    large: false,
-    category: "er",
-  },
+  { Icon: Table2,   label: "DML",     title: "Манипулација со податоци", body: "SELECT · JOIN · GROUP BY · Подупрашувања",                 color: "blue",   category: "dml" },
+  { Icon: Database, label: "DDL",     title: "Дефинирање на шема",       body: "CREATE TABLE · PRIMARY KEY · FOREIGN KEY",                color: "teal",   category: "ddl" },
+  { Icon: Cpu,      label: "Тригери", title: "Автоматизација со тригери", body: "BEFORE / AFTER · PL/pgSQL · Состојбено тестирање",       color: "red",    category: "trigger" },
+  { Icon: GitBranch,label: "ER",      title: "ER дијаграми",             body: "Ентитети · Врски · Кардиналност · Слаби ентитети",        color: "teal",   category: "er" },
+];
+
+const CODE_LINES = [
+  { tokens: [{ t: "SELECT", k: "kw" }, { t: " s.name, d.name AS dept", k: "txt" }] },
+  { tokens: [{ t: "FROM",   k: "kw" }, { t: " students s",              k: "txt" }] },
+  { tokens: [{ t: "JOIN",   k: "kw" }, { t: " departments d ", k: "txt" }, { t: "ON", k: "kw" }, { t: " s.dept_id = d.id", k: "txt" }] },
+  { tokens: [{ t: "WHERE",  k: "kw" }, { t: " s.year = ",      k: "txt" }, { t: "3",  k: "num" }] },
+  { tokens: [{ t: "ORDER BY", k: "kw" }, { t: " s.name",       k: "txt" }] },
 ];
 
 export default function LandingPage() {
   return (
-    <>
+    <div className={styles.root}>
+
       {/* ── Nav ── */}
       <header className={styles.nav}>
         <div className={styles.navInner}>
-          <span className={styles.navLogo}>SQLab FINKI</span>
-          <nav className={styles.navLinks}>
-            <a href="#features" className={styles.navLink}>Features</a>
-            <a href="#modules" className={styles.navLink}>Modules</a>
+          <Link href="/" className={styles.navLogo}>
+            <Diamond size={16} className={styles.navLogoIcon} strokeWidth={2.5} />
+            SQLab FINKI
+          </Link>
+          <nav className={styles.navCenter}>
+            <a href="#features" className={styles.navLink}>Карактеристики</a>
+            <a href="#modules"  className={styles.navLink}>Модули</a>
           </nav>
-          <Link href="/login" className={styles.navBtn}>Login</Link>
+          <div className={styles.navRight}>
+            <Link href="/login"  className={styles.navLoginBtn}>Најава</Link>
+            <Link href="/signup" className={styles.navSignupBtn}>Започни →</Link>
+          </div>
         </div>
       </header>
 
       {/* ── Hero ── */}
       <section className={styles.hero}>
-        <div className={styles.heroDots} aria-hidden />
+        <div className={styles.heroGrid}  aria-hidden />
+        <div className={styles.heroGlow1} aria-hidden />
+        <div className={styles.heroGlow2} aria-hidden />
+
         <div className={styles.heroInner}>
-          <div className={styles.heroText}>
-            <div className={styles.heroBadge}>
-              <span className={`material-symbols-outlined ${styles.badgeIcon}`}>school</span>
-              Официјална алатка за Бази на податоци 1
-            </div>
-            <h1 className={styles.heroTitle}>
-              Совладај ги <span className={styles.heroAccent}>базите на податоци</span>
-            </h1>
-            <p className={styles.heroSub}>
-              Врвна интерактивна платформа за студентите на ФИНКИ. Вежбајте SQL прашалници,
-              дизајнирајте шеми и подгответе се за испитот преку практични сценарија.
-            </p>
-            <div className={styles.heroCtas}>
-              <Link href="/signup" className={styles.ctaPrimary}>Започни со вежбање</Link>
-              <a href="#modules" className={styles.ctaSecondary}>Разгледај модули</a>
-            </div>
+          <h1 className={styles.heroTitle}>
+            Совладај ги<br />
+            <span className={styles.heroAccent}>базите на податоци</span>
+          </h1>
+
+          <p className={styles.heroSub}>
+            Вежбај SQL во прелистувачот, добивај повратна информација веднаш
+            и подготви се за практичниот испит. Сe на едно место.
+          </p>
+
+          <div className={styles.heroCtas}>
+            <Link href="/signup" className={styles.ctaPrimary}>
+              Започни бесплатно
+              <span className={styles.ctaArrow}>→</span>
+            </Link>
+            <a href="#modules" className={styles.ctaGhost}>Разгледај модули</a>
           </div>
 
-          <div className={styles.heroCard}>
-            <div className={styles.heroCardBg} aria-hidden />
-            <div className={styles.glassPanel}>
-              <div className={styles.glassPanelHeader}>
-                <span className={styles.glassPanelCode}>SELECT * FROM students;</span>
-                <span className={`material-symbols-outlined ${styles.glassPanelPlay}`}>play_arrow</span>
+          {/* Code card */}
+          <div className={styles.heroCardWrap}>
+            <div className={styles.heroCard}>
+              <div className={styles.cardHeader}>
+                <div className={styles.cardDots}>
+                  <span className={styles.dot} style={{ background: "#ff5f57" }} />
+                  <span className={styles.dot} style={{ background: "#ffbd2e" }} />
+                  <span className={styles.dot} style={{ background: "#28ca41" }} />
+                </div>
+                <span className={styles.cardTitle}>query.sql</span>
+                <span className={styles.cardBadge}>Live</span>
               </div>
-              <div className={styles.glassPanelResult}>
-                &gt; Query executed in 0.04ms<br />
-                &gt; 24 rows returned
+
+              <div className={styles.cardCode}>
+                {CODE_LINES.map((line, i) => (
+                  <div key={i} className={styles.codeLine} style={{ animationDelay: `${i * 0.12}s` }}>
+                    <span className={styles.lineNum}>{i + 1}</span>
+                    <span>
+                      {line.tokens.map((tok, j) => (
+                        <span key={j} className={styles[tok.k]}>{tok.t}</span>
+                      ))}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className={styles.cardResult}>
+                <span className={styles.resultIcon}>✓</span>
+                <span className={styles.resultText}>
+                  Точно! · 24 редови · 0.04ms · <strong>100 поени</strong>
+                </span>
+              </div>
+            </div>
+
+            <div className={styles.floatBadge}>
+              <Trophy size={22} className={styles.floatTrophyIcon} strokeWidth={1.8} />
+              <div>
+                <p className={styles.floatTitle}>Врвен резултат</p>
+                <p className={styles.floatSub}>1,240 поени</p>
               </div>
             </div>
           </div>
@@ -106,20 +146,16 @@ export default function LandingPage() {
       {/* ── Features ── */}
       <section className={styles.features} id="features">
         <div className={styles.container}>
-          <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>Зошто SQLab FINKI?</h2>
-            <p className={styles.sectionSub}>
-              Наменски дизајнирана платформа за елиминирање на техничките пречки и фокусирање на логиката.
-            </p>
-          </div>
+          <p className={styles.eyebrow}>Зошто SQLab FINKI</p>
+          <h2 className={styles.sectionTitle}>Се што ти треба за испитот</h2>
           <div className={styles.featureGrid}>
-            {FEATURES.map((f) => (
-              <div key={f.title} className={styles.featureCard}>
+            {FEATURES.map(({ Icon, title, body }, i) => (
+              <div key={title} className={styles.featureCard} style={{ animationDelay: `${i * 0.08}s` }}>
                 <div className={styles.featureIconWrap}>
-                  <span className={`material-symbols-outlined ${styles.featureIcon}`}>{f.icon}</span>
+                  <Icon size={20} strokeWidth={1.8} className={styles.featureIcon} />
                 </div>
-                <h3 className={styles.featureTitle}>{f.title}</h3>
-                <p className={styles.featureBody}>{f.body}</p>
+                <h3 className={styles.featureTitle}>{title}</h3>
+                <p className={styles.featureBody}>{body}</p>
               </div>
             ))}
           </div>
@@ -129,111 +165,50 @@ export default function LandingPage() {
       {/* ── Modules ── */}
       <section className={styles.modules} id="modules">
         <div className={styles.container}>
-          <div className={styles.modulesHead}>
-            <h2 className={styles.sectionTitle}>Модули за Вежбање</h2>
-            <p className={styles.sectionSub}>Структуриран пристап кон совладување на секој аспект од релационите бази.</p>
-          </div>
-          <div className={styles.bentoGrid}>
-            {MODULES.map((m) => (
-              <Link
-                key={m.title}
-                href={`/login`}
-                className={`${styles.bentoCard} ${m.large ? styles.bentoLarge : ""}`}
-              >
-                <div className={styles.bentoBg} aria-hidden>
-                  <span className={`material-symbols-outlined ${styles.bentoBgIcon}`}>{m.icon}</span>
+          <p className={styles.eyebrow}>Модули за вежбање</p>
+          <h2 className={styles.sectionTitle}>Секој аспект од испитот</h2>
+          <div className={styles.moduleGrid}>
+            {MODULES.map(({ Icon, label, title, body, color }) => (
+              <Link key={label} href="/signup" className={`${styles.moduleCard} ${styles[`mod_${color}`]}`}>
+                <div className={styles.moduleLabelRow}>
+                  <Icon size={15} strokeWidth={2} />
+                  <span className={styles.moduleLabel}>{label}</span>
                 </div>
-                <div className={styles.bentoContent}>
-                  <div>
-                    <span className={`material-symbols-outlined ${styles.bentoIcon}`}>{m.icon}</span>
-                    <h3 className={`${styles.bentoTitle} ${m.large ? styles.bentoTitleLg : ""}`}>{m.title}</h3>
-                    <p className={styles.bentoBody}>{m.body}</p>
-                  </div>
-                  <span className={styles.bentoLink}>Започни модул →</span>
-                </div>
+                <h3 className={styles.moduleTitle}>{title}</h3>
+                <p className={styles.moduleBody}>{body}</p>
+                <span className={styles.moduleArrow}>Започни →</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Platform Preview ── */}
-      <section className={styles.preview}>
-        <div className={styles.container}>
-          <h2 className={`${styles.sectionTitle} ${styles.centered}`}>Професионална работна околина</h2>
-          <div className={styles.previewWindow}>
-            <div className={styles.previewBar}>
-              <div className={styles.previewDot} />
-              <div className={styles.previewDot} />
-              <div className={styles.previewDot} />
-              <span className={styles.previewBarTitle}>sqlab-finki/workspace</span>
-            </div>
-            <div className={styles.previewBody}>
-              <aside className={styles.previewSidebar}>
-                <p className={styles.previewSidebarLabel}>Schema Explorer</p>
-                <ul className={styles.previewTableList}>
-                  {["employees", "departments", "salaries"].map((t) => (
-                    <li key={t} className={styles.previewTableItem}>
-                      <span className={`material-symbols-outlined ${styles.previewTableIcon}`}>table</span>
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </aside>
-              <div className={styles.previewEditor}>
-                <div className={styles.previewCode}>
-                  <span className={styles.kw}>SELECT</span> e.first_name, e.last_name, d.dept_name<br />
-                  <span className={styles.kw}>FROM</span> employees e<br />
-                  <span className={styles.kw}>JOIN</span> dept_emp de <span className={styles.kw}>ON</span> e.emp_no = de.emp_no<br />
-                  <span className={styles.kw}>JOIN</span> departments d <span className={styles.kw}>ON</span> de.dept_no = d.dept_no<br />
-                  <span className={styles.kw}>WHERE</span> d.dept_name = <span className={styles.str}>&apos;Engineering&apos;</span>;
-                </div>
-                <div className={styles.previewResults}>
-                  <table className={styles.resultsTable}>
-                    <thead>
-                      <tr>
-                        <th>first_name</th><th>last_name</th><th>dept_name</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr><td>Gjorgji</td><td>Madjarov</td><td>Engineering</td></tr>
-                      <tr><td>Petko</td><td>Petkovski</td><td>Engineering</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Final CTA ── */}
+      {/* ── CTA ── */}
       <section className={styles.cta}>
+        <div className={styles.ctaGlow} aria-hidden />
         <div className={styles.ctaInner}>
           <h2 className={styles.ctaTitle}>Подготвен за испитот?</h2>
           <p className={styles.ctaSub}>
-            Не оставајте ништо на случајност. Придружете им се на стотици студенти кои веќе ја користат платформата.
+            Регистрирај се и почни да решаваш задачи веднаш.
+            Бесплатно, без инсталација.
           </p>
-          <Link href="/signup" className={styles.ctaPrimaryDark}>Најави се</Link>
+          <Link href="/signup" className={styles.ctaBig}>
+            Создај профил — бесплатно
+          </Link>
         </div>
       </section>
 
       {/* ── Footer ── */}
       <footer className={styles.footer}>
         <div className={styles.footerInner}>
-          <span className={styles.footerLogo}>SQLab FINKI</span>
-          <div className={styles.footerLinks}>
-            <a href="#">Institutional Links</a>
-            <a href="#">Project Credits</a>
-            <a href="#">Contact Info</a>
-          </div>
-          <span className={styles.footerCopy}>© {new Date().getFullYear()} SQLab FINKI. All rights reserved.</span>
+          <span className={styles.footerLogo}>
+            <Diamond size={13} strokeWidth={2} style={{ display: "inline", verticalAlign: "middle", marginRight: 4 }} />
+            SQLab FINKI
+          </span>
+          <p className={styles.footerCopy}>© {new Date().getFullYear()} SQLab FINKI · ФИНКИ Скопjе</p>
         </div>
       </footer>
 
-      {/* Material Symbols */}
-      {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    </>
+    </div>
   );
 }
