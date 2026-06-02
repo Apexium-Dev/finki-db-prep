@@ -8,7 +8,12 @@ interface LeaderboardRow {
   tasks_solved: number;
 }
 
-const MEDALS = ["🥇", "🥈", "🥉"];
+function RankBadge({ rank }: { rank: number }) {
+  if (rank === 1) return <span className={`${styles.rankBadge} ${styles.rank1}`}>1</span>;
+  if (rank === 2) return <span className={`${styles.rankBadge} ${styles.rank2}`}>2</span>;
+  if (rank === 3) return <span className={`${styles.rankBadge} ${styles.rank3}`}>3</span>;
+  return <span className={styles.rankNum}>{rank}</span>;
+}
 
 export default function Leaderboard({
   rows,
@@ -35,11 +40,10 @@ export default function Leaderboard({
 
       {rows.map((row) => {
         const isMe = row.user_id === currentUserId;
-        const medal = MEDALS[row.rank - 1];
         return (
           <div key={row.user_id} className={`${styles.row} ${isMe ? styles.myRow : ""}`}>
             <span className={styles.colRank}>
-              {medal ?? <span className={styles.rankNum}>{row.rank}</span>}
+              <RankBadge rank={row.rank} />
             </span>
             <span className={styles.colName}>
               {row.display_name ?? "Anonymous"}
