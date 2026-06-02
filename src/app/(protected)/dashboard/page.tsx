@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import type { Task, TaskCategory } from "@/types/database";
-import DashboardTopBar from "@/components/DashboardTopBar";
 import DashboardFilters from "@/components/DashboardFilters";
 import CategoryBrowser from "@/components/CategoryBrowser";
 import ContinuePracticing from "@/components/ContinuePracticing";
@@ -111,10 +110,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
   const showFiltered = !!(searchParams.category || searchParams.difficulty);
 
   return (
-    <>
-      <DashboardTopBar />
-
-      <div className={styles.body}>
+    <div className={styles.body}>
         {/* ── Main content ── */}
         <div className={styles.content}>
 
@@ -203,7 +199,6 @@ export default async function DashboardPage({ searchParams }: PageProps) {
             </Link>
           </div>
         </aside>
-      </div>
-    </>
+    </div>
   );
 }
