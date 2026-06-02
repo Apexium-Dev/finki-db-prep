@@ -1,0 +1,357 @@
+.page {
+  padding: 2rem;
+  max-width: 1140px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ────────────────────────────────────
+   Profile row
+──────────────────────────────────── */
+.profileRow {
+  display: grid;
+  grid-template-columns: 1fr 260px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.userCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.avatarLarge {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #1e3a5f;
+  border: 2px solid rgba(65, 234, 212, 0.3);
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.userName {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.userMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.38);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.levelChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: fit-content;
+  background: rgba(65, 234, 212, 0.07);
+  border: 1px solid rgba(65, 234, 212, 0.18);
+  border-radius: 20px;
+  padding: 0.22rem 0.75rem;
+  margin-top: 0.15rem;
+}
+
+.levelNum   { font-size: 0.75rem; font-weight: 700; color: #41ead4; }
+.levelTitle { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); }
+.levelPts   { font-size: 0.68rem; color: rgba(255, 255, 255, 0.22); }
+
+/* Stats */
+.statsCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.statCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.statBody  { display: flex; flex-direction: column; gap: 0.1rem; }
+.statLabel { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em; color: rgba(255,255,255,0.28); margin: 0; }
+.statValue { font-family: var(--font-display); font-size: 1.45rem; font-weight: 700; color: #fff; margin: 0; letter-spacing: -0.02em; line-height: 1; }
+.statUnit  { font-size: 0.9rem; font-weight: 400; color: rgba(255,255,255,0.35); }
+
+.statIcon {
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.iconPurple { background: rgba(139,92,246,0.15); color: #a78bfa; }
+.iconGray   { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.4); }
+.iconOrange { background: rgba(249,115,22,0.15);  color: #fb923c; }
+
+/* Activity */
+.activityCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 1rem;
+}
+
+.emptyActivity { font-size: 0.82rem; color: rgba(255,255,255,0.25); margin: 0; }
+
+.activityList {
+  list-style: none;
+  margin: 0; padding: 0;
+  display: flex; flex-direction: column;
+  gap: 0.75rem;
+}
+
+.activityItem { display: flex; gap: 0.6rem; align-items: flex-start; }
+
+.dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+.dotGreen { background: #41ead4; box-shadow: 0 0 5px rgba(65,234,212,0.4); }
+.dotGray  { background: rgba(255,255,255,0.16); }
+
+.activityBody { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+
+.activityText {
+  font-size: 0.79rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taskName { color: #41ead4; }
+
+.activityMeta {
+  display: flex; align-items: center; gap: 0.3rem;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.2);
+  margin: 0;
+}
+
+.scoreChip {
+  background: rgba(65,234,212,0.09);
+  color: #41ead4;
+  border-radius: 4px;
+  padding: 0.02rem 0.35rem;
+  font-size: 0.64rem;
+  font-weight: 600;
+}
+
+/* ────────────────────────────────────
+   Achievements section
+──────────────────────────────────── */
+.achievementsSection {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 1.75rem;
+}
+
+.achievementsHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.2rem;
+  letter-spacing: -0.02em;
+}
+
+.sectionSub {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0;
+}
+
+.earnedPill {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #41ead4;
+  background: rgba(65, 234, 212, 0.08);
+  border: 1px solid rgba(65, 234, 212, 0.18);
+  border-radius: 20px;
+  padding: 0.3rem 0.85rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Groups */
+.badgeGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.badgeGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.groupLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.22);
+  margin: 0;
+}
+
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ── Badge card ── */
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  width: 108px;
+  padding: 1.1rem 0.6rem 0.9rem;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  text-align: center;
+  transition: transform 0.15s;
+}
+
+.badge:hover { transform: translateY(-2px); }
+
+.badgeIconWrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.15rem;
+}
+
+.badgeLabel {
+  font-size: 0.73rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.badgeSub {
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.32);
+  margin: 0;
+  line-height: 1.35;
+}
+
+/* Locked */
+.badgeLocked {
+  background: rgba(255, 255, 255, 0.025);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+.badgeLocked .badgeIconWrap {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.2);
+}
+.badgeLocked .badgeLabel { color: rgba(255,255,255,0.3); }
+.badgeLocked .badgeSub   { color: rgba(255,255,255,0.15); }
+
+/* Earned color variants */
+.colorTeal {
+  background: rgba(65, 234, 212, 0.07);
+  border-color: rgba(65, 234, 212, 0.25);
+  box-shadow: 0 0 16px rgba(65, 234, 212, 0.08);
+}
+.colorTeal .badgeIconWrap { background: rgba(65, 234, 212, 0.15); color: #41ead4; }
+
+.colorYellow {
+  background: rgba(251, 191, 36, 0.07);
+  border-color: rgba(251, 191, 36, 0.25);
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.08);
+}
+.colorYellow .badgeIconWrap { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
+
+.colorPurple {
+  background: rgba(167, 139, 250, 0.07);
+  border-color: rgba(167, 139, 250, 0.25);
+  box-shadow: 0 0 16px rgba(167, 139, 250, 0.08);
+}
+.colorPurple .badgeIconWrap { background: rgba(167, 139, 250, 0.15); color: #a78bfa; }
+
+.colorBlue {
+  background: rgba(96, 165, 250, 0.07);
+  border-color: rgba(96, 165, 250, 0.25);
+  box-shadow: 0 0 16px rgba(96, 165, 250, 0.08);
+}
+.colorBlue .badgeIconWrap { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
+
+.colorOrange {
+  background: rgba(251, 146, 60, 0.07);
+  border-color: rgba(251, 146, 60, 0.25);
+  box-shadow: 0 0 16px rgba(251, 146, 60, 0.08);
+}
+.colorOrange .badgeIconWrap { background: rgba(251, 146, 60, 0.15); color: #fb923c; }
+
+.colorGold {
+  background: rgba(245, 158, 11, 0.07);
+  border-color: rgba(245, 158, 11, 0.28);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.1);
+}
+.colorGold .badgeIconWrap { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
