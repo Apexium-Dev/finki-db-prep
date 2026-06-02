@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FINKI DB Prep",
-  description: "Practice platform for the FINKI Databases 1 practical exam",
+  title: "SQLab FINKI",
+  description: "Интерактивна платформа за вежбање SQL за студентите на ФИНКИ",
 };
 
 export default function RootLayout({

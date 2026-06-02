@@ -6,7 +6,7 @@ export default function AppNav({ email }: { email: string }) {
     <nav className={styles.nav}>
       <div className={styles.inner}>
         <Link href="/dashboard" className={styles.logo}>
-          FINKI DB Prep
+          SQLab FINKI
         </Link>
         <div className={styles.right}>
           <span className={styles.email}>{email}</span>

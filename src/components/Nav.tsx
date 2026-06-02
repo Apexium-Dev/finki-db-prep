@@ -6,7 +6,7 @@ export default function Nav() {
     <nav className={styles.nav}>
       <div className={styles.inner}>
         <Link href="/" className={styles.logo}>
-          FINKI DB Prep
+          SQLab FINKI
         </Link>
         <div className={styles.actions}>
           <Link href="/login" className={styles.login}>
