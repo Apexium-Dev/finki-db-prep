@@ -32,12 +32,12 @@ export default function SignupPage() {
   if (done) {
     return (
       <>
-        <h1 className={styles.title}>Провери ја е-поштата</h1>
+        <h1 className={styles.title}>Check your email</h1>
         <p className={styles.subtitle}>
-          Испративме линк за потврда на <strong>{email}</strong>. Кликни на линкот за да го активираш профилот.
+          We sent a confirmation link to <strong className={styles.emailHighlight}>{email}</strong>. Click it to activate your account.
         </p>
         <Link href="/login" className={styles.backLink}>
-          ← Назад кон најава
+          ← Back to sign in
         </Link>
       </>
     );
@@ -45,15 +45,16 @@ export default function SignupPage() {
 
   return (
     <>
-      <h1 className={styles.title}>Регистрација</h1>
-      <p className={styles.subtitle}>FINKI DB Prep</p>
+      <h1 className={styles.title}>Create an account</h1>
+      <p className={styles.subtitle}>Free forever. No credit card needed.</p>
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <label className={styles.label}>
-          Е-пошта
+          Email
           <input
             className={styles.input}
             type="email"
+            placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -62,31 +63,30 @@ export default function SignupPage() {
         </label>
 
         <label className={styles.label}>
-          Лозинка
+          Password
           <input
             className={styles.input}
             type="password"
+            placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
             autoComplete="new-password"
           />
-          <span className={styles.hint}>Минимум 6 карактери</span>
+          <span className={styles.hint}>Minimum 6 characters</span>
         </label>
 
         {error && <p className={styles.error}>{error}</p>}
 
         <button className={styles.button} type="submit" disabled={loading}>
-          {loading ? "Се регистрирам..." : "Регистрирај се"}
+          {loading ? "Creating account..." : "Create account"}
         </button>
       </form>
 
       <p className={styles.footer}>
-        Веќе имаш профил?{" "}
-        <Link href="/login" className={styles.link}>
-          Најава
-        </Link>
+        Already have an account?{" "}
+        <Link href="/login" className={styles.link}>Sign in</Link>
       </p>
     </>
   );

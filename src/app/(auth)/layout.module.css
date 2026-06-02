@@ -1,17 +1,116 @@
 .wrapper {
   min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #011627;
+}
+
+/* Left panel — branding */
+.brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid rgba(65, 234, 212, 0.08);
+}
+
+.brandGlow {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(65, 234, 212, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.brandGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(65, 234, 212, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(65, 234, 212, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 80% at 30% 50%, black 30%, transparent 100%);
+}
+
+.brandLogo {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.brandLogoAccent { color: #41EAD4; }
+
+.brandBody {
+  position: relative;
+  z-index: 1;
+}
+
+.brandTitle {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.brandAccent { color: #41EAD4; }
+
+.brandSub {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.7;
+  max-width: 320px;
+}
+
+.brandFooter {
+  position: relative;
+  z-index: 1;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* Right panel — form */
+.card {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f5f5;
-  padding: 1rem;
+  padding: 2rem;
+  background: #020f1b;
 }
 
-.card {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  padding: 2.5rem 2rem;
+.cardInner {
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
+}
+
+/* Mobile: single column */
+@media (max-width: 768px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .brand {
+    display: none;
+  }
+
+  .card {
+    background: #011627;
+    padding: 2rem 1.25rem;
+    align-items: flex-start;
+    padding-top: 4rem;
+  }
 }

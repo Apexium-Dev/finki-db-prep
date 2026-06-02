@@ -33,15 +33,16 @@ export default function LoginPage() {
 
   return (
     <>
-      <h1 className={styles.title}>Најава</h1>
-      <p className={styles.subtitle}>FINKI DB Prep</p>
+      <h1 className={styles.title}>Welcome back</h1>
+      <p className={styles.subtitle}>Log in to your SQLab FINKI account</p>
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <label className={styles.label}>
-          Е-пошта
+          Email
           <input
             className={styles.input}
             type="email"
+            placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -50,10 +51,11 @@ export default function LoginPage() {
         </label>
 
         <label className={styles.label}>
-          Лозинка
+          Password
           <input
             className={styles.input}
             type="password"
+            placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -64,15 +66,13 @@ export default function LoginPage() {
         {error && <p className={styles.error}>{error}</p>}
 
         <button className={styles.button} type="submit" disabled={loading}>
-          {loading ? "Се најавувам..." : "Најава"}
+          {loading ? "Signing in..." : "Sign in"}
         </button>
       </form>
 
       <p className={styles.footer}>
-        Немаш профил?{" "}
-        <Link href="/signup" className={styles.link}>
-          Регистрирај се
-        </Link>
+        No account?{" "}
+        <Link href="/signup" className={styles.link}>Create one free</Link>
       </p>
     </>
   );
