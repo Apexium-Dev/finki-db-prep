@@ -1,50 +1,51 @@
 .wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.25rem 2.5rem;
-  margin-bottom: 2rem;
+  gap: 1rem 2rem;
 }
 
 .group {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
 }
 
 .groupLabel {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #888;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.25);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   white-space: nowrap;
 }
 
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.35rem;
 }
 
 .chip {
-  background: none;
-  border: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 999px;
-  padding: 0.3rem 0.85rem;
-  font-size: 0.85rem;
-  color: #475569;
+  padding: 0.28rem 0.8rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
-  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  font-family: var(--font-sans);
 }
 
 .chip:hover {
-  background: #f1f5f9;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .chip.active {
-  background: #3b82f6;
-  border-color: #3b82f6;
-  color: #fff;
-  font-weight: 600;
+  background: rgba(65, 234, 212, 0.12);
+  border-color: rgba(65, 234, 212, 0.35);
+  color: #41EAD4;
+  font-weight: 700;
 }
