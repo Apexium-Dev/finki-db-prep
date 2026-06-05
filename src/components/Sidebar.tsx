@@ -78,7 +78,7 @@ export default function Sidebar({ totalScore }: { email: string; totalScore: num
           <Settings size={16} strokeWidth={1.8} />
           {t.nav.settings}
         </Link>
-        <FeedbackButton />
+        <FeedbackButton triggerClassName={styles.bottomItem} />
         <form action="/auth/signout" method="POST">
           <button type="submit" className={styles.bottomItem}>
             <LogOut size={16} strokeWidth={1.8} />

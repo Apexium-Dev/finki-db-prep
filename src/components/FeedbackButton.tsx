@@ -5,7 +5,7 @@ import { X, Send, Flag } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import styles from "./FeedbackButton.module.css";
 
-export default function FeedbackButton() {
+export default function FeedbackButton({ triggerClassName }: { triggerClassName?: string }) {
   const [open, setOpen] = useState(false);
   const [type, setType] = useState<"bug" | "suggestion">("bug");
   const [message, setMessage] = useState("");
@@ -55,7 +55,7 @@ export default function FeedbackButton() {
   return (
     <div className={styles.wrap} ref={ref}>
       <button
-        className={styles.trigger}
+        className={triggerClassName ?? styles.trigger}
         onClick={() => setOpen((o) => !o)}
         aria-label="Пријави проблем или сугестија"
       >
