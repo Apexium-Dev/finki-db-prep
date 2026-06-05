@@ -1,18 +1,31 @@
+import Link from "next/link";
 import { Search } from "lucide-react";
+import NotificationBell from "./NotificationBell";
+import HelpDropdown from "./HelpDropdown";
+import LanguageToggle from "./LanguageToggle";
 import styles from "./DashboardTopBar.module.css";
 
-export default function DashboardTopBar() {
+export default function DashboardTopBar({ userInitial }: { userInitial: string }) {
   return (
     <div className={styles.bar}>
-      <span className={styles.breadcrumb}>SQL Lab</span>
+      <span className={styles.brand}>SQL Lab</span>
 
       <div className={styles.search}>
         <Search size={15} strokeWidth={1.8} className={styles.searchIcon} />
         <input
           className={styles.searchInput}
           type="text"
-          placeholder="Search tasks..."
+          placeholder="Пребарај задачи..."
         />
+      </div>
+
+      <div className={styles.actions}>
+        <LanguageToggle />
+        <NotificationBell />
+        <HelpDropdown />
+        <Link href="/profile" className={styles.avatar} aria-label="Profile">
+          {userInitial.toUpperCase()}
+        </Link>
       </div>
     </div>
   );
