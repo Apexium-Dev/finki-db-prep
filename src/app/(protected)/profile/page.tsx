@@ -1,10 +1,12 @@
+import Link from "next/link";
+import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { getLevel } from "@/lib/levels";
 import type { Task } from "@/types/database";
 import {
   Mail, Calendar, Star, CheckCircle2, Flame, Clock,
   Zap, Shield, Target, Trophy, Crown, Database,
-  Table2, Timer, Globe, Lock,
+  Table2, Timer, Globe, Lock, Pencil,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import styles from "./page.module.css";
@@ -131,12 +133,19 @@ export default async function ProfilePage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: profileRaw } = await (supabase as any)
     .from("profiles")
-    .select("display_name, created_at")
+    .select("display_name, username, avatar_url, created_at")
     .eq("id", user!.id)
     .single();
-  const profile = profileRaw as { display_name: string | null; created_at: string } | null;
+  const profile = profileRaw as {
+    display_name: string | null;
+    username: string | null;
+    avatar_url: string | null;
+    created_at: string;
+  } | null;
 
-  const displayName = profile?.display_name ?? user?.email?.split("@")[0] ?? "Student";
+  const displayName  = profile?.display_name ?? user?.email?.split("@")[0] ?? "Student";
+  const username     = profile?.username ?? null;
+  const avatarUrl    = profile?.avatar_url ?? null;
   const enrolledYear = profile?.created_at
     ? new Date(profile.created_at).getFullYear()
     : new Date().getFullYear();
@@ -166,7 +175,7 @@ export default async function ProfilePage() {
   const earnedCount = badges.filter((b) => b.earned).length;
   const badgeMap   = new Map(badges.map((b) => [b.id, b]));
 
-  const recentActivity = subs.slice(0, 8);
+  const recentActivity = subs.slice(0, 5);
 
   return (
     <div className={styles.page}>
@@ -176,9 +185,29 @@ export default async function ProfilePage() {
 
         {/* User card */}
         <div className={styles.userCard}>
-          <div className={styles.avatarLarge}>{displayName[0].toUpperCase()}</div>
+          <div className={styles.avatarWrap}>
+            {avatarUrl ? (
+              <Image
+                src={avatarUrl}
+                alt={displayName}
+                width={72}
+                height={72}
+                className={styles.avatarImg}
+                unoptimized
+              />
+            ) : (
+              <div className={styles.avatarLarge}>{displayName[0].toUpperCase()}</div>
+            )}
+          </div>
           <div className={styles.userInfo}>
-            <h1 className={styles.userName}>{displayName}</h1>
+            <div className={styles.userNameRow}>
+              <h1 className={styles.userName}>{displayName}</h1>
+              <Link href="/profile/edit" className={styles.editBtn}>
+                <Pencil size={13} strokeWidth={2} />
+                Уреди
+              </Link>
+            </div>
+            {username && <p className={styles.usernameTag}>@{username}</p>}
             <div className={styles.userMeta}>
               <span className={styles.metaItem}><Mail size={13} strokeWidth={1.8} />{user?.email}</span>
               <span className={styles.metaItem}><Calendar size={13} strokeWidth={1.8} />Запишан {enrolledYear}</span>
