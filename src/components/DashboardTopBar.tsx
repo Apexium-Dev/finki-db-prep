@@ -3,6 +3,7 @@ import { Search } from "lucide-react";
 import NotificationBell from "./NotificationBell";
 import HelpDropdown from "./HelpDropdown";
 import LanguageToggle from "./LanguageToggle";
+import FeedbackButton from "./FeedbackButton";
 import styles from "./DashboardTopBar.module.css";
 
 export default function DashboardTopBar({ userInitial }: { userInitial: string }) {
@@ -21,6 +22,7 @@ export default function DashboardTopBar({ userInitial }: { userInitial: string }
 
       <div className={styles.actions}>
         <LanguageToggle />
+        <FeedbackButton />
         <NotificationBell />
         <HelpDropdown />
         <Link href="/profile" className={styles.avatar} aria-label="Profile">
