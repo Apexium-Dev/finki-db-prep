@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import styles from "./page.module.css";
 
@@ -9,8 +10,8 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -26,21 +27,7 @@ export default function SignupPage() {
       return;
     }
 
-    setDone(true);
-  }
-
-  if (done) {
-    return (
-      <>
-        <h1 className={styles.title}>Check your email</h1>
-        <p className={styles.subtitle}>
-          We sent a confirmation link to <strong className={styles.emailHighlight}>{email}</strong>. Click it to activate your account.
-        </p>
-        <Link href="/login" className={styles.backLink}>
-          ← Back to sign in
-        </Link>
-      </>
-    );
+    router.push("/dashboard");
   }
 
   return (
