@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { MessageSquarePlus, X, Send } from "lucide-react";
+import { X, Send, Flag } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import styles from "./FeedbackButton.module.css";
 
@@ -58,9 +58,9 @@ export default function FeedbackButton() {
         className={styles.trigger}
         onClick={() => setOpen((o) => !o)}
         aria-label="Пријави проблем или сугестија"
-        title="Пријави проблем / сугестија"
       >
-        <MessageSquarePlus size={17} strokeWidth={1.8} />
+        <Flag size={16} strokeWidth={1.8} />
+        Пријави проблем
       </button>
 
       {open && (
@@ -77,13 +77,13 @@ export default function FeedbackButton() {
               className={`${styles.tab} ${type === "bug" ? styles.tabActive : ""}`}
               onClick={() => setType("bug")}
             >
-              🐛 Проблем
+              Проблем
             </button>
             <button
               className={`${styles.tab} ${type === "suggestion" ? styles.tabActive : ""}`}
               onClick={() => setType("suggestion")}
             >
-              💡 Сугестија
+              Сугестија
             </button>
           </div>
 
