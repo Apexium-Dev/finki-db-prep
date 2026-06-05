@@ -1,7 +1,9 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getLocale } from "@/lib/i18n/server";
 import Sidebar from "@/components/Sidebar";
 import DashboardTopBar from "@/components/DashboardTopBar";
+import { LanguageProvider } from "@/components/LanguageProvider";
 import type { ReactNode } from "react";
 import styles from "./layout.module.css";
 
@@ -24,14 +26,17 @@ export default async function ProtectedLayout({ children }: { children: ReactNod
   });
   const totalScore = Math.round(Array.from(bestPerTask.values()).reduce((a, b) => a + b, 0));
   const userInitial = (user.email?.split("@")[0] ?? "U")[0];
+  const locale = getLocale();
 
   return (
-    <div className={styles.shell}>
-      <Sidebar email={user.email ?? ""} totalScore={totalScore} />
-      <div className={styles.main}>
-        <DashboardTopBar userInitial={userInitial} />
-        <div className={styles.content}>{children}</div>
+    <LanguageProvider initialLocale={locale}>
+      <div className={styles.shell}>
+        <Sidebar email={user.email ?? ""} totalScore={totalScore} />
+        <div className={styles.main}>
+          <DashboardTopBar userInitial={userInitial} />
+          <div className={styles.content}>{children}</div>
+        </div>
       </div>
-    </div>
+    </LanguageProvider>
   );
 }

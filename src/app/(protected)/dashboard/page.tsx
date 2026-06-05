@@ -194,8 +194,8 @@ export default async function DashboardPage({ searchParams }: PageProps) {
               <span className={styles.leaderboardTop}>Top 5</span>
             </div>
             <Leaderboard rows={leaderboard} currentUserId={user?.id ?? ""} />
-            <Link href="/dashboard?leaderboard=full" className={styles.fullListBtn}>
-              Full list
+            <Link href="/leaderboard" className={styles.fullListBtn}>
+              Целосна листа
             </Link>
           </div>
         </aside>
