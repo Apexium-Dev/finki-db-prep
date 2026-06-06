@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ArrowLeft, Play, RotateCcw, AlignLeft, Trash2 } from "lucide-react";
+import TaskReportButton from "@/components/TaskReportButton";
 import type { Task, HintItem, WalkthroughStep } from "@/types/database";
 import type { GradingResult } from "@/lib/grading/dml";
 import type { DdlGradingResult } from "@/lib/grading/ddl";
@@ -130,6 +131,7 @@ export default function TaskSolver({ task }: { task: Task }) {
           <span className={styles.categoryBadge}>{CATEGORY_LABELS[task.category]}</span>
         </div>
         <div className={styles.taskBarRight}>
+          <TaskReportButton taskId={task.id} />
           <span className={styles.pointsBadge}>{task.points} поени</span>
           <button
             className={styles.checkBtn}

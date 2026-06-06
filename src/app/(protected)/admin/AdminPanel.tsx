@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { markReviewed } from "./actions";
 import styles from "./page.module.css";
 
@@ -11,6 +12,8 @@ export interface FeedbackRow {
   status: "new" | "reviewed";
   created_at: string;
   display_name: string;
+  task_title: string | null;
+  task_id: string | null;
 }
 
 export default function AdminPanel({ rows }: { rows: FeedbackRow[] }) {
@@ -48,7 +51,7 @@ export default function AdminPanel({ rows }: { rows: FeedbackRow[] }) {
             className={`${styles.filterBtn} ${filter === f ? styles.filterActive : ""}`}
             onClick={() => setFilter(f)}
           >
-            {f === "all" ? "Сите" : f === "new" ? "Нови" : f === "bug" ? "🐛 Проблеми" : "💡 Сугестии"}
+            {f === "all" ? "Сите" : f === "new" ? "Нови" : f === "bug" ? "Проблеми" : "Сугестии"}
           </button>
         ))}
       </div>
@@ -62,8 +65,13 @@ export default function AdminPanel({ rows }: { rows: FeedbackRow[] }) {
               <div className={styles.cardTop}>
                 <div className={styles.cardMeta}>
                   <span className={`${styles.typeBadge} ${row.type === "bug" ? styles.typeBug : styles.typeSuggestion}`}>
-                    {row.type === "bug" ? "🐛 Проблем" : "💡 Сугестија"}
+                    {row.type === "bug" ? "Грешка" : "Сугестија"}
                   </span>
+                  {row.task_title && (
+                    <Link href={`/task/${row.task_id}`} className={styles.taskLink}>
+                      {row.task_title}
+                    </Link>
+                  )}
                   <span className={styles.user}>{row.display_name}</span>
                   <span className={styles.date}>{new Date(row.created_at).toLocaleString("mk-MK")}</span>
                 </div>
@@ -72,7 +80,7 @@ export default function AdminPanel({ rows }: { rows: FeedbackRow[] }) {
                     Означи прегледано
                   </button>
                 ) : (
-                  <span className={styles.reviewedBadge}>✓ Прегледано</span>
+                  <span className={styles.reviewedBadge}>Прегледано</span>
                 )}
               </div>
               <p className={styles.message}>{row.message}</p>

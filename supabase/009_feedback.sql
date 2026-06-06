@@ -28,3 +28,6 @@ CREATE POLICY "Admins can update feedback status"
   ON public.feedback FOR UPDATE
   TO authenticated
   USING (auth.uid() = '81a572ca-2617-4f74-be71-96f61476593f');
+
+-- Migration: add task_id for task-specific reports
+ALTER TABLE public.feedback ADD COLUMN IF NOT EXISTS task_id uuid REFERENCES public.tasks(id) ON DELETE SET NULL;
