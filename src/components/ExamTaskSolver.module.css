@@ -102,6 +102,7 @@
 .body {
   display: grid;
   grid-template-columns: 380px 1fr;
+  grid-template-rows: 1fr;
   flex: 1;
   min-height: 0;
   overflow: hidden;
@@ -152,7 +153,9 @@
 .rightPanel {
   display: flex;
   flex-direction: column;
+  height: 100%;
   min-height: 0;
+  overflow: hidden;
   background: #0a1628;
 }
 
