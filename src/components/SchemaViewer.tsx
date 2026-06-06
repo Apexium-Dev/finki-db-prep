@@ -77,7 +77,7 @@ function layoutNodes(tables: TableDef[]): Node[] {
   }));
 }
 
-export default function SchemaViewer({ setupSql }: { setupSql: string }) {
+export default function SchemaViewer({ setupSql, height }: { setupSql: string; height?: number | string }) {
   const tables = parseSqlSchema(setupSql);
 
   if (tables.length === 0) {
@@ -107,7 +107,7 @@ export default function SchemaViewer({ setupSql }: { setupSql: string }) {
   });
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={height !== undefined ? { height } : undefined}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
