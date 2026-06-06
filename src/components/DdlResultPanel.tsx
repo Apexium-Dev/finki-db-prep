@@ -19,7 +19,7 @@ export default function DdlResultPanel({ result, earnedScore, maxScore }: Props)
             {passed ? "Точно!" : score > 0 ? "Делумно точно" : "Неточно"}
           </p>
           <p className={styles.score}>
-            {earnedScore} / {maxScore} поени &nbsp;·&nbsp; {score}/{aspectCount} аспекти
+            {earnedScore} / {maxScore} поени{aspectCount > 0 && <> &nbsp;·&nbsp; {score}/{aspectCount} аспекти</>}
           </p>
         </div>
       </div>

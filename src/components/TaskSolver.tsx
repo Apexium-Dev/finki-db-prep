@@ -31,7 +31,7 @@ type AnyResult =
 function calcScore(result: AnyResult, maxPoints: number, penaltyPercent: number): number {
   let ratio = 0;
   if (result.type === "dml") ratio = result.data.passed ? 1 : 0;
-  else ratio = result.data.score / result.data.maxScore;
+  else ratio = result.data.maxScore > 0 ? result.data.score / result.data.maxScore : 1;
   return Math.round(maxPoints * ratio * (1 - penaltyPercent / 100));
 }
 

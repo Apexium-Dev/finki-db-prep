@@ -19,7 +19,7 @@ export default function TriggerResultPanel({ result, earnedScore, maxScore }: Pr
             {passed ? "Точно!" : score > 0 ? "Делумно точно" : "Неточно"}
           </p>
           <p className={styles.score}>
-            {earnedScore} / {maxScore} поени &nbsp;·&nbsp; {score}/{scenarioCount} сценарија
+            {earnedScore} / {maxScore} поени{scenarioCount > 0 && <> &nbsp;·&nbsp; {score}/{scenarioCount} сценарија</>}
           </p>
         </div>
       </div>
