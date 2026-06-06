@@ -36,22 +36,8 @@ export default async function AnalyticsPage() {
     ? Math.round((correctCount / totalSubmissions) * 100)
     : 0;
 
-  // Submissions per day — last 30 days
-  const now = new Date();
-  const dayMap: Record<string, { total: number; correct: number }> = {};
-  for (let i = 29; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i);
-    dayMap[d.toISOString().slice(0, 10)] = { total: 0, correct: 0 };
-  }
-  for (const s of subs) {
-    const day = s.created_at.slice(0, 10);
-    if (dayMap[day]) {
-      dayMap[day].total++;
-      if (s.is_correct) dayMap[day].correct++;
-    }
-  }
-  const perDay = Object.entries(dayMap).map(([date, v]) => ({ date, ...v }));
+  // Raw timestamps for client-side time aggregation
+  const rawTimestamps = subs.map((s) => ({ date: s.created_at.slice(0, 10), is_correct: s.is_correct }));
 
   // Correct vs incorrect pie
   const pieData = [
@@ -105,7 +91,7 @@ export default async function AnalyticsPage() {
   return (
     <AnalyticsDashboard
       summary={{ totalStudents, totalSubmissions, correctRate, taskCount: taskCount ?? 0 }}
-      perDay={perDay}
+      rawTimestamps={rawTimestamps}
       pieData={pieData}
       hardest={hardest}
       mostAttempted={mostAttempted}
