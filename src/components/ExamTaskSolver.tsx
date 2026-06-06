@@ -149,9 +149,7 @@ export default function ExamTaskSolver({ task }: { task: ExamTask }) {
               {/* Schema tab */}
               {rightTab === "schema" && hasSchema && (
                 <div className={styles.schemaFull}>
-                  <div className={styles.schemaAbsolute}>
-                    <SchemaViewer setupSql={rawSetup} />
-                  </div>
+                  <SchemaViewer setupSql={rawSetup} height="100%" />
                 </div>
               )}
 
@@ -230,9 +228,7 @@ export default function ExamTaskSolver({ task }: { task: ExamTask }) {
             /* Non-SQL task: show schema if exists, else note */
             hasSchema ? (
               <div className={styles.schemaFull}>
-                <div className={styles.schemaAbsolute}>
-                  <SchemaViewer setupSql={rawSetup} />
-                </div>
+                <SchemaViewer setupSql={rawSetup} height="100%" />
               </div>
             ) : (
               <div className={styles.theoreticalNote}>

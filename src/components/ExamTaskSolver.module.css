@@ -187,21 +187,9 @@
 /* Schema tab: fills all remaining height */
 .schemaFull {
   flex: 1;
-  min-height: 0;
   overflow: hidden;
-  position: relative;
-}
-
-.schemaAbsolute {
-  position: absolute;
-  inset: 0;
-}
-
-/* Override SchemaViewer's fixed 260px height */
-.schemaAbsolute > div {
-  height: 100% !important;
-  border-radius: 0 !important;
-  border: none !important;
+  /* explicit height so child height:100% resolves correctly */
+  height: 0;
 }
 
 /* SQL editor area */
