@@ -6,7 +6,8 @@ import Link from "next/link";
 import { ArrowLeft, Play, RotateCcw, Loader2, Table } from "lucide-react";
 import styles from "./ExamTaskSolver.module.css";
 
-const SqlEditor = dynamic(() => import("@/components/SqlEditor"), { ssr: false });
+const SqlEditor    = dynamic(() => import("@/components/SqlEditor"),    { ssr: false });
+const SchemaViewer = dynamic(() => import("@/components/SchemaViewer"), { ssr: false });
 
 const CATEGORY_LABELS: Record<string, string> = {
   dml: "DML",
@@ -114,9 +115,11 @@ export default function ExamTaskSolver({ task }: { task: ExamTask }) {
             <p className={styles.prompt}>{task.prompt}</p>
           </div>
           {task.setup_sql?.trim() && (
-            <div className={styles.section}>
+            <div className={styles.schemaSection}>
               <p className={styles.sectionLabel}>Шема</p>
-              <pre className={styles.schemaPre}>{task.setup_sql}</pre>
+              <div className={styles.schemaViewer}>
+                <SchemaViewer setupSql={task.setup_sql} />
+              </div>
             </div>
           )}
         </div>
