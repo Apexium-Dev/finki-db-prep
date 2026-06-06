@@ -1,0 +1,139 @@
+.wrap {
+  position: relative;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  color: #7b8fa6;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.trigger:hover {
+  border-color: rgba(248, 113, 113, 0.3);
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.06);
+}
+
+.modal {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 300px;
+  background: #0d1f2d;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modalTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  color: #7b8fa6;
+  cursor: pointer;
+}
+.close:hover { color: #e2e8f0; }
+
+.tabs {
+  display: flex;
+  gap: 6px;
+}
+.tab {
+  flex: 1;
+  padding: 6px 0;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  color: #7b8fa6;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+}
+.tabActive {
+  background: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.3);
+  color: #f87171;
+}
+
+.textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 12px;
+  padding: 9px 11px;
+  resize: vertical;
+  min-height: 80px;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+.textarea:focus { border-color: rgba(248, 113, 113, 0.3); }
+.textarea::placeholder { color: #4a5568; }
+
+.submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 0;
+  border-radius: 7px;
+  border: none;
+  background: rgba(248, 113, 113, 0.15);
+  color: #f87171;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  border: 1px solid rgba(248, 113, 113, 0.25);
+}
+.submit:hover:not(:disabled) { background: rgba(248, 113, 113, 0.22); }
+.submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.successMsg {
+  text-align: center;
+  color: #14b8a6;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 0;
+}
+.errorMsg {
+  color: #f87171;
+  font-size: 11px;
+  margin: 0;
+}
