@@ -153,6 +153,9 @@ export default function TaskSolver({ task }: { task: Task }) {
           <div className={styles.section}>
             <p className={styles.sectionLabel}>Задача</p>
             <p className={styles.prompt}>{task.prompt}</p>
+            <p className={styles.aiDisclaimer}>
+              Задачата е генерирана од AI модел и може да содржи грешки. Ако забележиш проблем, користи го копчето &ldquo;Пријави&rdquo; горе десно.
+            </p>
           </div>
 
           {/* Schema diagram */}
