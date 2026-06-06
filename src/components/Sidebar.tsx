@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Database, Table2, Zap, GitBranch,
-  Settings, LogOut, Diamond, Play,
+  Settings, LogOut, Diamond, Play, BookOpen,
 } from "lucide-react";
 import { getLevel } from "@/lib/levels";
 import { useLanguage } from "./LanguageProvider";
@@ -22,6 +22,7 @@ export default function Sidebar({ totalScore }: { email: string; totalScore: num
     { href: "/dml",       label: t.nav.dml,          Icon: Table2,          key: "DML"         },
     { href: "/trigger",   label: t.nav.triggers,     Icon: Zap,             key: "Triggers"    },
     { href: "/er",        label: t.nav.erDiagrams,   Icon: GitBranch,       key: "ER Diagrams" },
+    { href: "/exam",      label: "Стари Испити",     Icon: BookOpen,        key: "Exam"        },
   ];
 
   return (
