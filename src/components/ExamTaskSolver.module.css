@@ -189,11 +189,16 @@
   flex: 1;
   min-height: 0;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  position: relative;
 }
 
-.schemaFullInner {
+.schemaAbsolute {
+  position: absolute;
+  inset: 0;
+}
+
+/* Override SchemaViewer's fixed 260px height */
+.schemaAbsolute > div {
   height: 100% !important;
   border-radius: 0 !important;
   border: none !important;
