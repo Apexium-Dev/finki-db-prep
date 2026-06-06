@@ -42,39 +42,87 @@ function TableNode({ data }: { data: TableDef }) {
 
 const NODE_TYPES = { table: TableNode };
 
-const NODE_W = 240;
+const NODE_W = 250;
 const NODE_H_BASE = 36;
 const NODE_H_ROW = 26;
-const COL_GAP = 80;
-const ROW_GAP = 50;
-const COLS_PER_ROW = 3;
+const COL_GAP = 90;
+const ROW_GAP = 60;
 
 function tableHeight(t: TableDef) {
   return NODE_H_BASE + t.columns.length * NODE_H_ROW;
 }
 
 function layoutNodes(tables: TableDef[]): Node[] {
-  const numRows = Math.ceil(tables.length / COLS_PER_ROW);
+  const tableNames = new Set(tables.map(t => t.name));
 
-  // Pre-compute cumulative Y for each row
-  const rowY: number[] = [0];
-  for (let r = 1; r < numRows; r++) {
-    const prevRowTables = tables.slice((r - 1) * COLS_PER_ROW, r * COLS_PER_ROW);
-    const maxH = Math.max(...prevRowTables.map(tableHeight));
-    rowY[r] = rowY[r - 1] + maxH + ROW_GAP;
+  // Build adjacency: which tables does each table reference?
+  const refs = new Map<string, Set<string>>();
+  for (const t of tables) {
+    refs.set(t.name, new Set());
+    for (const col of t.columns) {
+      if (col.references && tableNames.has(col.references.table) && col.references.table !== t.name) {
+        refs.get(t.name)!.add(col.references.table);
+      }
+    }
   }
 
-  return tables.map((table, i) => ({
-    id: table.name,
-    type: "table",
-    position: {
-      x: (i % COLS_PER_ROW) * (NODE_W + COL_GAP),
-      y: rowY[Math.floor(i / COLS_PER_ROW)],
-    },
-    data: table,
-    draggable: true,
-    selectable: false,
-  }));
+  // Assign depth level: root tables (no outgoing refs in schema) = level 0
+  // Tables that reference level-N tables = level N+1
+  // Use iterative relaxation to handle cycles gracefully
+  const level = new Map<string, number>();
+  for (const t of tables) level.set(t.name, 0);
+
+  for (let iter = 0; iter < tables.length; iter++) {
+    let changed = false;
+    for (const t of tables) {
+      for (const dep of refs.get(t.name) ?? []) {
+        const proposed = (level.get(dep) ?? 0) + 1;
+        if (proposed > (level.get(t.name) ?? 0)) {
+          level.set(t.name, proposed);
+          changed = true;
+        }
+      }
+    }
+    if (!changed) break;
+  }
+
+  // Group tables by level
+  const byLevel = new Map<number, TableDef[]>();
+  for (const t of tables) {
+    const lv = level.get(t.name) ?? 0;
+    if (!byLevel.has(lv)) byLevel.set(lv, []);
+    byLevel.get(lv)!.push(t);
+  }
+
+  const sortedLevels = Array.from(byLevel.keys()).sort((a, b) => a - b);
+
+  // Compute Y for each level (cumulative max row height)
+  const levelY: number[] = [];
+  let curY = 0;
+  for (const lv of sortedLevels) {
+    levelY.push(curY);
+    const rowH = Math.max(...byLevel.get(lv)!.map(tableHeight));
+    curY += rowH + ROW_GAP;
+  }
+
+  const nodes: Node[] = [];
+  for (let li = 0; li < sortedLevels.length; li++) {
+    const lv = sortedLevels[li];
+    const row = byLevel.get(lv)!;
+    const rowW = row.length * NODE_W + (row.length - 1) * COL_GAP;
+    const startX = -rowW / 2; // center each row
+    row.forEach((table, ci) => {
+      nodes.push({
+        id: table.name,
+        type: "table",
+        position: { x: startX + ci * (NODE_W + COL_GAP), y: levelY[li] },
+        data: table,
+        draggable: true,
+        selectable: false,
+      });
+    });
+  }
+  return nodes;
 }
 
 export default function SchemaViewer({ setupSql, height }: { setupSql: string; height?: number | string }) {
