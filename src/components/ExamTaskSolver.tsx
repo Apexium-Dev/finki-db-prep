@@ -52,14 +52,15 @@ export default function ExamTaskSolver({ task }: { task: ExamTask }) {
   const dbRef = useRef<import("@electric-sql/pglite").PGlite | null>(null);
 
   const isSqlTask = SQL_CATEGORIES.has(task.category);
-  const parsedTables = task.setup_sql?.trim() ? parseSqlSchema(task.setup_sql) : [];
+  const rawSetup = task.setup_sql?.replace(/```sql\s*/gi, "").replace(/```/g, "").trim() ?? "";
+  const parsedTables = rawSetup ? parseSqlSchema(rawSetup) : [];
   const hasSchema = parsedTables.length > 0;
 
   async function getDb() {
     if (dbRef.current) return dbRef.current;
     const { PGlite } = await import("@electric-sql/pglite");
     const db = new PGlite();
-    if (task.setup_sql?.trim()) await db.exec(task.setup_sql);
+    if (rawSetup) await db.exec(rawSetup);
     dbRef.current = db;
     return db;
   }
@@ -148,7 +149,7 @@ export default function ExamTaskSolver({ task }: { task: ExamTask }) {
               {/* Schema tab */}
               {rightTab === "schema" && hasSchema && (
                 <div className={styles.schemaFull}>
-                  <SchemaViewer setupSql={task.setup_sql!} className={styles.schemaFullInner} />
+                  <SchemaViewer setupSql={rawSetup} className={styles.schemaFullInner} />
                 </div>
               )}
 
@@ -227,7 +228,7 @@ export default function ExamTaskSolver({ task }: { task: ExamTask }) {
             /* Non-SQL task: show schema if exists, else note */
             hasSchema ? (
               <div className={styles.schemaFull}>
-                <SchemaViewer setupSql={task.setup_sql!} className={styles.schemaFullInner} />
+                <SchemaViewer setupSql={rawSetup} className={styles.schemaFullInner} />
               </div>
             ) : (
               <div className={styles.theoreticalNote}>
