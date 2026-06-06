@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
+import { BarChart2 } from "lucide-react";
 import { markReviewed } from "./actions";
 import styles from "./page.module.css";
 
@@ -42,6 +43,10 @@ export default function AdminPanel({ rows }: { rows: FeedbackRow[] }) {
           <h1 className={styles.title}>Admin — Повратна информација</h1>
           <p className={styles.subtitle}>{newCount} нови пораки · {items.length} вкупно</p>
         </div>
+        <Link href="/admin/analytics" className={styles.analyticsLink}>
+          <BarChart2 size={15} strokeWidth={1.8} />
+          Аналитика
+        </Link>
       </div>
 
       <div className={styles.filters}>
