@@ -89,11 +89,6 @@ export default function ExamTaskSolver({ task }: { task: ExamTask }) {
           </div>
           <div className={styles.taskBarRight}>
             <span className={styles.pointsBadge}>{task.points} поени</span>
-            {hasSchema && (
-              <button className={styles.schemaBtn} onClick={() => setSchemaOpen(true)}>
-                <Network size={14} strokeWidth={1.8} /> Шема
-              </button>
-            )}
             {isSqlTask && (
               <button className={styles.resetBtn} onClick={handleReset} title="Ресетирај база">
                 <RotateCcw size={15} strokeWidth={2} />
@@ -108,6 +103,12 @@ export default function ExamTaskSolver({ task }: { task: ExamTask }) {
           <div className={styles.leftPanel}>
             <p className={styles.sectionLabel}>Задача</p>
             <p className={styles.prompt}>{task.prompt}</p>
+            {hasSchema && (
+              <button className={styles.schemaBtnLeft} onClick={() => setSchemaOpen(true)}>
+                <Network size={14} strokeWidth={1.8} />
+                Прегледај шема
+              </button>
+            )}
           </div>
 
           {/* Right: SQL editor or note */}
