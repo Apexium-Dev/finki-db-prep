@@ -145,18 +145,20 @@
   margin: 0;
 }
 
-.schemaPre {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.72rem;
-  color: rgba(255,255,255,0.4);
-  background: rgba(255,255,255,0.03);
+.schemaSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 1.5rem;
+}
+
+.schemaViewer {
+  height: 260px;
+  border-radius: 8px;
+  overflow: hidden;
   border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 7px;
-  padding: 0.85rem 1rem;
-  overflow-x: auto;
-  margin: 0;
-  white-space: pre;
-  line-height: 1.6;
 }
 
 /* Right panel */
