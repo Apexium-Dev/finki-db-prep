@@ -40,7 +40,13 @@ export default function ExamTaskSolver({ task }: { task: ExamTask }) {
     if (dbRef.current) return dbRef.current;
     const { PGlite } = await import("@electric-sql/pglite");
     const db = new PGlite();
-    if (rawSetup) await db.exec(rawSetup);
+    if (rawSetup) {
+      // Execute each statement individually so FK ordering issues don't block everything
+      const stmts = rawSetup.split(";").map(s => s.trim()).filter(Boolean);
+      for (const stmt of stmts) {
+        try { await db.exec(stmt + ";"); } catch { /* ignore */ }
+      }
+    }
     dbRef.current = db;
     return db;
   }
@@ -50,7 +56,9 @@ export default function ExamTaskSolver({ task }: { task: ExamTask }) {
     setRunning(true); setResult(null);
     try {
       const db = await getDb();
-      const res = await db.query<QueryRow>(sql);
+      // db.query() doesn't accept trailing semicolons
+      const cleanSql = sql.trim().replace(/;+$/, "");
+      const res = await db.query<QueryRow>(cleanSql);
       setResult({ rows: res.rows, columns: res.fields.map(f => f.name), error: null });
     } catch (e) {
       setResult({ rows: [], columns: [], error: String(e) });
