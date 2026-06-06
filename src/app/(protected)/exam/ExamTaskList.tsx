@@ -85,7 +85,7 @@ export default function ExamTaskList({
               <p className={styles.cardDesc}>{task.prompt.split("\n")[0].slice(0, 120)}</p>
               <div className={styles.cardFooter}>
                 <span className={styles.pts}>{task.points} поени</span>
-                <Link href={`/task/${task.id}`} className={task.completed ? styles.reviewLink : styles.startLink}>
+                <Link href={`/exam/${task.id}`} className={task.completed ? styles.reviewLink : styles.startLink}>
                   {task.completed ? "Прегледај" : "Реши"}
                 </Link>
               </div>
