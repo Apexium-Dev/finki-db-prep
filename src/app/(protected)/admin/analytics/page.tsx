@@ -36,8 +36,12 @@ export default async function AnalyticsPage() {
     ? Math.round((correctCount / totalSubmissions) * 100)
     : 0;
 
-  // Raw timestamps for client-side time aggregation
-  const rawTimestamps = subs.map((s) => ({ date: s.created_at.slice(0, 10), is_correct: s.is_correct }));
+  // Raw timestamps for client-side time aggregation (date + hour)
+  const rawTimestamps = subs.map((s) => ({
+    date: s.created_at.slice(0, 10),
+    hour: s.created_at.slice(11, 13),
+    is_correct: s.is_correct,
+  }));
 
   // Correct vs incorrect pie
   const pieData = [
