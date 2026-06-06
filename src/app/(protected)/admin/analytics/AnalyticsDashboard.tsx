@@ -12,7 +12,7 @@ type Range = "day" | "week" | "month";
 
 interface Props {
   summary: { totalStudents: number; totalSubmissions: number; correctRate: number; taskCount: number };
-  rawTimestamps: { date: string; is_correct: boolean }[];
+  rawTimestamps: { date: string; hour: string; is_correct: boolean }[];
   pieData: { name: string; value: number }[];
   hardest: { title: string; rate: number; total: number }[];
   mostAttempted: { title: string; total: number; correct: number }[];
@@ -32,10 +32,27 @@ function shortTitle(title: string, max = 22) {
   return title.length > max ? title.slice(0, max) + "…" : title;
 }
 
-function buildDayData(raw: { date: string; is_correct: boolean }[], days: number) {
+// Ден — денес по час (00–23)
+function buildTodayData(raw: { date: string; hour: string; is_correct: boolean }[]) {
+  const today = new Date().toISOString().slice(0, 10);
+  const map: Record<string, { total: number; correct: number }> = {};
+  for (let h = 0; h < 24; h++) {
+    map[String(h).padStart(2, "0")] = { total: 0, correct: 0 };
+  }
+  for (const s of raw) {
+    if (s.date === today && map[s.hour]) {
+      map[s.hour].total++;
+      if (s.is_correct) map[s.hour].correct++;
+    }
+  }
+  return Object.entries(map).map(([h, v]) => ({ label: `${h}:00`, ...v }));
+}
+
+// Недела — последните 7 дена
+function buildWeekData(raw: { date: string; is_correct: boolean }[]) {
   const now = new Date();
   const map: Record<string, { total: number; correct: number }> = {};
-  for (let i = days - 1; i >= 0; i--) {
+  for (let i = 6; i >= 0; i--) {
     const d = new Date(now);
     d.setDate(d.getDate() - i);
     map[d.toISOString().slice(0, 10)] = { total: 0, correct: 0 };
@@ -49,58 +66,34 @@ function buildDayData(raw: { date: string; is_correct: boolean }[], days: number
   return Object.entries(map).map(([date, v]) => ({ label: date.slice(5), ...v }));
 }
 
-function buildWeekData(raw: { date: string; is_correct: boolean }[]) {
-  const now = new Date();
-  const map: Record<string, { total: number; correct: number; label: string }> = {};
-  for (let i = 11; i >= 0; i--) {
-    const d = new Date(now);
-    d.setDate(d.getDate() - i * 7);
-    const mon = new Date(d);
-    mon.setDate(d.getDate() - d.getDay() + 1);
-    const key = mon.toISOString().slice(0, 10);
-    map[key] = { total: 0, correct: 0, label: key.slice(5) };
-  }
-  for (const s of raw) {
-    const d = new Date(s.date);
-    const mon = new Date(d);
-    mon.setDate(d.getDate() - d.getDay() + 1);
-    const key = mon.toISOString().slice(0, 10);
-    if (map[key]) {
-      map[key].total++;
-      if (s.is_correct) map[key].correct++;
-    }
-  }
-  return Object.values(map);
-}
-
+// Месец — последните 30 дена
 function buildMonthData(raw: { date: string; is_correct: boolean }[]) {
   const now = new Date();
-  const map: Record<string, { total: number; correct: number; label: string }> = {};
-  for (let i = 11; i >= 0; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-    map[key] = { total: 0, correct: 0, label: key.slice(5) + "/" + key.slice(2, 4) };
+  const map: Record<string, { total: number; correct: number }> = {};
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    map[d.toISOString().slice(0, 10)] = { total: 0, correct: 0 };
   }
   for (const s of raw) {
-    const key = s.date.slice(0, 7);
-    if (map[key]) {
-      map[key].total++;
-      if (s.is_correct) map[key].correct++;
+    if (map[s.date]) {
+      map[s.date].total++;
+      if (s.is_correct) map[s.date].correct++;
     }
   }
-  return Object.values(map);
+  return Object.entries(map).map(([date, v]) => ({ label: date.slice(5), ...v }));
 }
 
 export default function AnalyticsDashboard({ summary, rawTimestamps, pieData, hardest, mostAttempted, byCategory }: Props) {
   const [range, setRange] = useState<Range>("day");
 
   const chartData = useMemo(() => {
-    if (range === "day") return buildDayData(rawTimestamps, 30);
+    if (range === "day") return buildTodayData(rawTimestamps);
     if (range === "week") return buildWeekData(rawTimestamps);
     return buildMonthData(rawTimestamps);
   }, [range, rawTimestamps]);
 
-  const rangeLabel = range === "day" ? "30 дена" : range === "week" ? "12 недели" : "12 месеци";
+  const rangeLabel = range === "day" ? "денес" : range === "week" ? "последни 7 дена" : "последни 30 дена";
 
   return (
     <div className={styles.page}>
