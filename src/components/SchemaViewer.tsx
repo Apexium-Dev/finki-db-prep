@@ -42,41 +42,42 @@ function TableNode({ data }: { data: TableDef }) {
 
 const NODE_TYPES = { table: TableNode };
 
-const NODE_W = 200;
-const NODE_H_BASE = 36;   // header
-const NODE_H_ROW = 26;    // per column
-const COL_GAP = 70;
-const ROW_GAP = 40;
+const NODE_W = 240;
+const NODE_H_BASE = 36;
+const NODE_H_ROW = 26;
+const COL_GAP = 80;
+const ROW_GAP = 50;
 const COLS_PER_ROW = 3;
 
-function layoutNodes(tables: TableDef[]): Node[] {
-  return tables.map((table, i) => {
-    const col = i % COLS_PER_ROW;
-    const row = Math.floor(i / COLS_PER_ROW);
-    const prevRowHeight = row === 0 ? 0 : tables
-      .slice(0, row * COLS_PER_ROW)
-      .reduce((maxH, _, j) => {
-        const rowIdx = Math.floor(j / COLS_PER_ROW);
-        if (rowIdx !== row - 1) return maxH;
-        const h = NODE_H_BASE + tables[j].columns.length * NODE_H_ROW;
-        return Math.max(maxH, h);
-      }, 0) + ROW_GAP;
-
-    return {
-      id: table.name,
-      type: "table",
-      position: {
-        x: col * (NODE_W + COL_GAP),
-        y: prevRowHeight,
-      },
-      data: table,
-      draggable: false,
-      selectable: false,
-    };
-  });
+function tableHeight(t: TableDef) {
+  return NODE_H_BASE + t.columns.length * NODE_H_ROW;
 }
 
-export default function SchemaViewer({ setupSql }: { setupSql: string }) {
+function layoutNodes(tables: TableDef[]): Node[] {
+  const numRows = Math.ceil(tables.length / COLS_PER_ROW);
+
+  // Pre-compute cumulative Y for each row
+  const rowY: number[] = [0];
+  for (let r = 1; r < numRows; r++) {
+    const prevRowTables = tables.slice((r - 1) * COLS_PER_ROW, r * COLS_PER_ROW);
+    const maxH = Math.max(...prevRowTables.map(tableHeight));
+    rowY[r] = rowY[r - 1] + maxH + ROW_GAP;
+  }
+
+  return tables.map((table, i) => ({
+    id: table.name,
+    type: "table",
+    position: {
+      x: (i % COLS_PER_ROW) * (NODE_W + COL_GAP),
+      y: rowY[Math.floor(i / COLS_PER_ROW)],
+    },
+    data: table,
+    draggable: true,
+    selectable: false,
+  }));
+}
+
+export default function SchemaViewer({ setupSql, className }: { setupSql: string; className?: string }) {
   const tables = parseSqlSchema(setupSql);
 
   if (tables.length === 0) {
@@ -106,14 +107,14 @@ export default function SchemaViewer({ setupSql }: { setupSql: string }) {
   });
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container}${className ? ` ${className}` : ""}`}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
         nodeTypes={NODE_TYPES}
         fitView
         fitViewOptions={{ padding: 0.2 }}
-        nodesDraggable={false}
+        nodesDraggable={true}
         nodesConnectable={false}
         elementsSelectable={false}
         zoomOnScroll={false}
