@@ -13,10 +13,13 @@ export default async function AdminPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data } = await (supabase as any)
     .from("feedback")
-    .select("id, type, message, status, created_at, user_id")
+    .select("id, type, message, status, created_at, user_id, task_id")
     .order("created_at", { ascending: false });
 
-  const userIds: string[] = Array.from(new Set((data ?? []).map((r: { user_id: string }) => r.user_id).filter(Boolean)));
+  const rows = data ?? [];
+
+  const userIds: string[] = Array.from(new Set(rows.map((r: { user_id: string }) => r.user_id).filter(Boolean)));
+  const taskIds: string[] = Array.from(new Set(rows.map((r: { task_id: string }) => r.task_id).filter(Boolean)));
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: profiles } = await (supabase as any)
@@ -24,12 +27,26 @@ export default async function AdminPage() {
     .select("id, display_name")
     .in("id", userIds.length > 0 ? userIds : ["00000000-0000-0000-0000-000000000000"]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: tasks } = await (supabase as any)
+    .from("tasks")
+    .select("id, title")
+    .in("id", taskIds.length > 0 ? taskIds : ["00000000-0000-0000-0000-000000000000"]);
+
   const nameMap: Record<string, string> = {};
-  for (const p of profiles ?? []) nameMap[p.id] = p.display_name ?? p.id;
+  for (const p of profiles ?? []) nameMap[p.id] = p.display_name ?? "—";
 
-  const rows = (data ?? []).map((r: {
-    id: string; type: string; message: string; status: string; created_at: string; user_id: string;
-  }) => ({ ...r, display_name: nameMap[r.user_id] ?? "—" }));
+  const taskMap: Record<string, string> = {};
+  for (const t of tasks ?? []) taskMap[t.id] = t.title;
 
-  return <AdminPanel rows={rows} />;
+  const enriched = rows.map((r: {
+    id: string; type: string; message: string; status: string;
+    created_at: string; user_id: string; task_id: string | null;
+  }) => ({
+    ...r,
+    display_name: nameMap[r.user_id] ?? "—",
+    task_title: r.task_id ? (taskMap[r.task_id] ?? r.task_id) : null,
+  }));
+
+  return <AdminPanel rows={enriched} />;
 }
