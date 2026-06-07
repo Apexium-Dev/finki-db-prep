@@ -83,7 +83,6 @@ export default async function DashboardPage({ searchParams }: PageProps) {
     { key: "ddl",      label: "DDL (Data Definition)",    desc: "CREATE TABLE, primary keys, constraints" },
     { key: "dml",      label: "DML (Data Manipulation)",   desc: "SELECT, JOIN, GROUP BY, subqueries"      },
     { key: "trigger",  label: "Triggers",                  desc: "BEFORE/AFTER, PL/pgSQL, state testing"   },
-    { key: "er",       label: "ER Diagrams",               desc: "Entities, relationships, cardinality"    },
   ];
 
   const catProgress = CATS.map((c) => {

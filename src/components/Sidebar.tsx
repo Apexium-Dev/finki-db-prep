@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard, Database, Table2, Zap, GitBranch,
-  Settings, LogOut, Diamond, Play,
+  LayoutDashboard, Database, Table2, Zap,
+  Settings, LogOut, Diamond, Play, Clock,
 } from "lucide-react";
 import { getLevel } from "@/lib/levels";
 import { useLanguage } from "./LanguageProvider";
@@ -21,7 +21,7 @@ export default function Sidebar({ totalScore }: { email: string; totalScore: num
     { href: "/ddl",       label: t.nav.ddl,          Icon: Database,        key: "DDL"         },
     { href: "/dml",       label: t.nav.dml,          Icon: Table2,          key: "DML"         },
     { href: "/trigger",   label: t.nav.triggers,     Icon: Zap,             key: "Triggers"    },
-    { href: "/er",        label: t.nav.erDiagrams,   Icon: GitBranch,       key: "ER Diagrams" },
+    { href: "/stari-ispiti", label: "Стари испити", Icon: Clock,           key: "Стари испити" },
   ];
 
   return (
@@ -67,6 +67,9 @@ export default function Sidebar({ totalScore }: { email: string; totalScore: num
             <Link key={key} href={href} className={`${styles.navItem} ${isActive ? styles.active : ""}`}>
               <Icon size={17} strokeWidth={1.8} className={styles.navIcon} />
               {label}
+              {key === "Стари испити" && (
+                <span className={styles.soonBadge}>наскоро</span>
+              )}
             </Link>
           );
         })}
