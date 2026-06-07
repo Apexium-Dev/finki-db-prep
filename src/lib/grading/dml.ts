@@ -18,16 +18,25 @@ function hasOrderBy(sql: string): boolean {
   return /\bORDER\s+BY\b/i.test(sql);
 }
 
+function projectToRefCols(
+  rows: Record<string, unknown>[],
+  refCols: string[]
+): Record<string, unknown>[] {
+  return rows.map((r) => Object.fromEntries(refCols.map((c) => [c, r[c]])));
+}
+
 function rowsEqual(
   student: Record<string, unknown>[],
   reference: Record<string, unknown>[],
   orderSensitive: boolean
 ): boolean {
   if (student.length !== reference.length) return false;
+  const refCols = reference.length > 0 ? Object.keys(reference[0]) : [];
+  const projected = projectToRefCols(student, refCols);
   if (orderSensitive) {
-    return JSON.stringify(student) === JSON.stringify(reference);
+    return JSON.stringify(projected) === JSON.stringify(reference);
   }
-  return normalizeRows(student) === normalizeRows(reference);
+  return normalizeRows(projected) === normalizeRows(reference);
 }
 
 export async function gradeDml(

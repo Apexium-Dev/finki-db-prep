@@ -30,7 +30,11 @@ export default function ResultPanel({ result, earnedScore, maxScore }: ResultPan
 
       {!error && (
         <div className={styles.tables}>
-          <ResultTable label="Твој резултат" rows={studentRows} columns={columns} />
+          <ResultTable
+            label="Твој резултат"
+            rows={studentRows}
+            columns={studentRows.length > 0 ? Object.keys(studentRows[0]) : columns}
+          />
           {!passed && (
             <ResultTable label="Очекуван резултат" rows={referenceRows} columns={columns} />
           )}
