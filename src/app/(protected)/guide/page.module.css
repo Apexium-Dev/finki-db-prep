@@ -1,0 +1,174 @@
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.heroIcon { color: #41EAD4; margin-bottom: 0.25rem; }
+
+.heroTitle {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+}
+
+.heroSub {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 1rem;
+}
+
+/* Steps */
+.stepList { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.stepNum {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(65, 234, 212, 0.1);
+  border: 1px solid rgba(65, 234, 212, 0.25);
+  color: #41EAD4;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.stepText {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Categories */
+.catGrid { display: flex; flex-direction: column; gap: 1rem; }
+
+.catCard {
+  background: #020f1b;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.catTop { display: flex; align-items: center; gap: 0.75rem; }
+
+.catIcon {
+  width: 34px;
+  height: 34px;
+  background: rgba(65, 234, 212, 0.08);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #41EAD4;
+  flex-shrink: 0;
+}
+
+.catTitle {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.catDesc {
+  font-size: 0.845rem;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.codeBlock {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 0.875rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #41EAD4;
+  overflow-x: auto;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Tips */
+.tipList { display: flex; flex-direction: column; gap: 0.625rem; }
+
+.tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.tipIcon { color: #41EAD4; flex-shrink: 0; margin-top: 1px; }
+
+.tipText {
+  font-size: 0.865rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.startBtn {
+  padding: 0.7rem 1.5rem;
+  background: #41EAD4;
+  color: #020f1b;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+.startBtn:hover { opacity: 0.85; }
+
+.faqLink {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.faqLink:hover { color: #41EAD4; }

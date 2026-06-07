@@ -19,10 +19,10 @@ export default function HelpDropdown() {
   }, []);
 
   const ITEMS = [
-    { Icon: GraduationCap, label: t.help.beginnerGuide, href: "#" },
-    { Icon: BookOpen,      label: t.help.sqlReference,  href: "#" },
-    { Icon: MessageSquare, label: t.help.faq,           href: "#" },
-    { Icon: Headphones,    label: t.help.contact,       href: "mailto:admin@finki.ukim.mk" },
+    { Icon: GraduationCap, label: t.help.beginnerGuide, href: "/guide" },
+    { Icon: BookOpen,      label: t.help.sqlReference,  href: "https://www.postgresql.org/docs/current/sql.html", external: true },
+    { Icon: MessageSquare, label: t.help.faq,           href: "/faq" },
+    { Icon: Headphones,    label: t.help.contact,       href: "/contact" },
   ];
 
   return (
@@ -39,9 +39,14 @@ export default function HelpDropdown() {
         <div className={styles.dropdown}>
           <p className={styles.header}>{t.help.title}</p>
           <ul className={styles.list}>
-            {ITEMS.map(({ Icon, label, href }) => (
+            {ITEMS.map(({ Icon, label, href, external }) => (
               <li key={label}>
-                <a href={href} className={styles.item} onClick={() => setOpen(false)}>
+                <a
+                  href={href}
+                  className={styles.item}
+                  onClick={() => setOpen(false)}
+                  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                >
                   <div className={styles.iconWrap}><Icon size={17} strokeWidth={1.6} /></div>
                   <span>{label}</span>
                 </a>
