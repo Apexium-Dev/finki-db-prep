@@ -293,3 +293,43 @@
   transition: color 0.15s;
 }
 .reviewLink:hover { color: rgba(255,255,255,0.7); }
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+}
+
+.pageBtn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 0.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.pageBtn:hover:not(:disabled) {
+  border-color: rgba(65, 234, 212, 0.3);
+  color: #41EAD4;
+  background: rgba(65, 234, 212, 0.05);
+}
+
+.pageBtn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.pageBtnActive {
+  border-color: #41EAD4;
+  color: #41EAD4;
+  background: rgba(65, 234, 212, 0.1);
+  font-weight: 700;
+}

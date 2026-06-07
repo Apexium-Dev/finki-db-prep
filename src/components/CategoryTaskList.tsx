@@ -23,6 +23,8 @@ function domainTag(task: TaskWithMeta): string | null {
   return task.tags.find((t) => !SKIP_TAGS.has(t.toLowerCase())) ?? null;
 }
 
+const PER_PAGE = 9;
+
 export default function CategoryTaskList({
   tasks,
   showERCounts = false,
@@ -33,6 +35,7 @@ export default function CategoryTaskList({
   const { t } = useLanguage();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "hard">("all");
+  const [page, setPage] = useState(1);
 
   const visible = tasks.filter((task) => {
     const q = search.toLowerCase();
@@ -41,6 +44,12 @@ export default function CategoryTaskList({
       (filter === "all" || task.difficulty >= 3)
     );
   });
+
+  const totalPages = Math.ceil(visible.length / PER_PAGE);
+  const paginated = visible.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+  function handleSearch(val: string) { setSearch(val); setPage(1); }
+  function handleFilter(val: "all" | "hard") { setFilter(val); setPage(1); }
 
   return (
     <div className={styles.listSection}>
@@ -53,12 +62,12 @@ export default function CategoryTaskList({
               className={styles.searchInput}
               placeholder={t.category.searchPlaceholder}
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => handleSearch(e.target.value)}
             />
           </div>
           <div className={styles.filters}>
-            <button className={`${styles.filterBtn} ${filter === "all" ? styles.filterActive : ""}`} onClick={() => setFilter("all")}>{t.category.all}</button>
-            <button className={`${styles.filterBtn} ${filter === "hard" ? styles.filterActive : ""}`} onClick={() => setFilter("hard")}>{t.category.hard}</button>
+            <button className={`${styles.filterBtn} ${filter === "all" ? styles.filterActive : ""}`} onClick={() => handleFilter("all")}>{t.category.all}</button>
+            <button className={`${styles.filterBtn} ${filter === "hard" ? styles.filterActive : ""}`} onClick={() => handleFilter("hard")}>{t.category.hard}</button>
           </div>
         </div>
       </div>
@@ -67,7 +76,7 @@ export default function CategoryTaskList({
         <p className={styles.empty}>{t.category.noResults}</p>
       ) : (
         <div className={styles.grid}>
-          {visible.map((task) => {
+          {paginated.map((task) => {
             const tag = domainTag(task);
             return (
               <div key={task.id} className={`${styles.card} ${task.completed ? styles.cardDone : ""}`}>
@@ -104,6 +113,34 @@ export default function CategoryTaskList({
               </div>
             );
           })}
+        </div>
+      )}
+
+      {totalPages > 1 && (
+        <div className={styles.pagination}>
+          <button
+            className={styles.pageBtn}
+            onClick={() => setPage((p) => p - 1)}
+            disabled={page === 1}
+          >
+            ‹
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+            <button
+              key={p}
+              className={`${styles.pageBtn} ${p === page ? styles.pageBtnActive : ""}`}
+              onClick={() => setPage(p)}
+            >
+              {p}
+            </button>
+          ))}
+          <button
+            className={styles.pageBtn}
+            onClick={() => setPage((p) => p + 1)}
+            disabled={page === totalPages}
+          >
+            ›
+          </button>
         </div>
       )}
     </div>

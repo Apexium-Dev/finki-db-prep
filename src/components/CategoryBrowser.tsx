@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Database, Table2, Zap, GitBranch, LayoutList } from "lucide-react";
+import { Database, Table2, Zap, GitBranch, LayoutList, Clock } from "lucide-react";
 import type { TaskCategory } from "@/types/database";
 import styles from "./CategoryBrowser.module.css";
 
@@ -52,6 +52,20 @@ export default function CategoryBrowser({ categories }: { categories: CategoryIt
             </Link>
           );
         })}
+
+        <Link href="/stari-ispiti" className={`${styles.card} ${styles.cardSoon}`}>
+          <div className={styles.cardTop}>
+            <div className={styles.iconWrap}>
+              <Clock size={18} strokeWidth={1.8} className={styles.icon} />
+            </div>
+            <span className={styles.soonBadge}>Наскоро</span>
+          </div>
+          <h3 className={styles.label}>Стари испити</h3>
+          <p className={styles.desc}>Задачи од реални испити одржани на ФИНКИ</p>
+          <div className={styles.bar}>
+            <div className={styles.barFill} style={{ width: "0%" }} />
+          </div>
+        </Link>
       </div>
     </div>
   );

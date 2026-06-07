@@ -166,6 +166,19 @@
 .navIcon { color: rgba(255, 255, 255, 0.35); transition: color 0.15s; }
 .navItem:hover .navIcon { color: rgba(255, 255, 255, 0.7); }
 
+.soonBadge {
+  margin-left: auto;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #41EAD4;
+  background: rgba(65, 234, 212, 0.1);
+  border: 1px solid rgba(65, 234, 212, 0.2);
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
 /* Bottom */
 .bottom {
   display: flex;
